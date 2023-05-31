@@ -24,7 +24,7 @@ class HomeViewModel(
         }
     }
 
-    fun onItem(id: Int) {
+    fun onItem(id: String) {
         openRocketInfoUseCase(id)
     }
 

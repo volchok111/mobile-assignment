@@ -41,7 +41,7 @@ fun HomeScreen() {
 @Composable
 private fun HomeScreenImpl(
     state: HomeViewModel.State,
-    onItem: (Int) -> Unit = {}
+    onItem: (String) -> Unit = {}
 ) {
     Column(
         verticalArrangement = Arrangement.Top,
@@ -81,7 +81,7 @@ private fun HomeScreenImpl(
                         Spacer(modifier = Modifier.height(sizeXS))
                         RocketListItem(
                             item = item,
-                            modifier = Modifier.clickable { onItem(item.id) }
+                            modifier = Modifier.clickable { onItem(item.rocket_id) }
                         )
                         Spacer(modifier = Modifier.height(sizeXS))
                     }

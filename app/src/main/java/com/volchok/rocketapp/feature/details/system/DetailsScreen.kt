@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
@@ -34,11 +33,15 @@ fun DetailsScreen() {
     val viewModel = getViewModel<DetailsViewModel>()
     val state = viewModel.states.collectAsState()
 
-    DetailsScreenImpl()
+    DetailsScreenImpl(
+        state = state.value
+    )
 }
 
 @Composable
-private fun DetailsScreenImpl() {
+private fun DetailsScreenImpl(
+    state: DetailsViewModel.State
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -54,7 +57,7 @@ private fun DetailsScreenImpl() {
         Spacer(modifier = Modifier.height(sizeS))
 
         RocketText(
-            text = "dklfvndsklvndlvndfkvndffvndlvnldfkvnkdfvndlkfnvldfnvdklnvlkadnv;ajnv;adbvna;svnalva;vabsivbalvb",
+            text = state.rocket?.description.orEmpty(),
             style = MaterialTheme.typography.body1
         )
         Spacer(modifier = Modifier.height(sizeS))
@@ -72,15 +75,15 @@ private fun DetailsScreenImpl() {
                 .fillMaxWidth()
         ) {
             ParametersItem(
-                title = "90m",
+                title = state.rocket?.height?.meters.toString(),
                 subtitle = stringResource(id = com.volchok.rocketapp.R.string.details_screen_parameters_height)
             )
             ParametersItem(
-                title = "40m",
+                title = state.rocket?.diameter?.meters.toString(),
                 subtitle = stringResource(id = com.volchok.rocketapp.R.string.details_screen_parameters_diameter)
             )
             ParametersItem(
-                title = "500t",
+                title = state.rocket?.mass?.kg.toString(),
                 subtitle = stringResource(id = com.volchok.rocketapp.R.string.details_screen_parameters_mass)
             )
         }
@@ -244,10 +247,4 @@ private fun RocketInfoItem(
         )
         RocketText(text = value, style = MaterialTheme.typography.body1)
     }
-}
-
-@Preview
-@Composable
-private fun DetailsScreenPreview() {
-    DetailsScreenImpl()
 }

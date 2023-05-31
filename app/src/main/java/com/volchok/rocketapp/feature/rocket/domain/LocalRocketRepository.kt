@@ -1,10 +1,10 @@
 package com.volchok.rocketapp.feature.rocket.domain
 
-import com.volchok.rocketapp.library.api.model.RocketItem
+import com.volchok.rocketapp.library.api.model.details.RocketDetailsModel
 import kotlinx.coroutines.flow.Flow
 
 interface LocalRocketRepository {
-    val rocket: Flow<RocketItem>
+    val rocket: Flow<RocketDetailsModel>
 
-    fun set(rocket: RocketItem)
+    fun set(rocket: RocketDetailsModel)
 }
