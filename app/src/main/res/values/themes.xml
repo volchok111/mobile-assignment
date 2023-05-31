@@ -2,7 +2,7 @@
 <resources>
 
     <style name="Theme.RocketApp" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">#FFFFFFFF</item>
-        <item name="android:background">#FFFFFFFF</item>
+        <item name="android:statusBarColor">#f6f6f6</item>
+        <item name="android:background">#f6f6f6</item>
     </style>
 </resources>
