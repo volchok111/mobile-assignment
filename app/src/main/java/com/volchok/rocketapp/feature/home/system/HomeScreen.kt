@@ -31,7 +31,7 @@ fun HomeScreen() {
 }
 
 @Composable
-fun HomeScreenImpl() {
+private fun HomeScreenImpl() {
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,

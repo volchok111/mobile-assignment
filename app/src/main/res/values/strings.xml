@@ -1,6 +1,19 @@
 <resources>
     <string name="app_name">RocketApp</string>
 
-
+    <!-- MARK: - Home Screen -->
     <string name="home_screen_title">Rockets</string>
+
+    <!-- MARK: - Details Screen -->
+    <string name="details_screen_overview">Overview</string>
+    <string name="details_screen_parameters">Parameters</string>
+    <string name="details_screen_parameters_height">height</string>
+    <string name="details_screen_parameters_diameter">diameter</string>
+    <string name="details_screen_parameters_mass">mass</string>
+    <string name="details_screen_engines">engines</string>
+    <string name="details_screen_tons">tons of fuel</string>
+    <string name="details_screen_seconds">seconds burn time</string>
+    <string name="details_screen_first_stage">First stage</string>
+    <string name="details_screen_second_stage">Second stage</string>
+    <string name="details_screen_photos">Photos</string>
 </resources>
