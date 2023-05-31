@@ -15,6 +15,7 @@ import com.volchok.rocketapp.app.model.BackNavigationEvent
 import com.volchok.rocketapp.app.model.ForwardNavigationEvent
 import com.volchok.rocketapp.app.model.Route
 import com.volchok.rocketapp.app.presentation.MainViewModel
+import com.volchok.rocketapp.feature.details.system.DetailsScreen
 import com.volchok.rocketapp.feature.home.system.HomeScreen
 import com.volchok.rocketapp.ui.theme.RocketAppTheme
 import org.koin.androidx.compose.getViewModel
@@ -64,6 +65,7 @@ private fun Screens(
     ) {
         //composable(Route.Splash()) { SplashScreen() }
         composable(Route.Home()) { HomeScreen() }
+        composable(Route.Details()) { DetailsScreen() }
     }
 }
 
@@ -91,7 +93,7 @@ private fun NavigationEffect(
                 }
             }
             null -> Unit
-           // else -> {}
+            // else -> {}
         }
     }
 }

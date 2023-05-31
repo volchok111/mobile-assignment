@@ -2,7 +2,8 @@ package com.volchok.rocketapp.app.model
 
 enum class Route {
     Splash,
-    Home;
+    Home,
+    Details;
 
     operator fun invoke() = name.lowercase()
 

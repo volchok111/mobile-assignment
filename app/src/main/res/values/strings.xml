@@ -3,6 +3,7 @@
 
     <!-- MARK: - Home Screen -->
     <string name="home_screen_title">Rockets</string>
+    <string name="home_screen_first_flight">First flight:</string>
 
     <!-- MARK: - Details Screen -->
     <string name="details_screen_overview">Overview</string>
