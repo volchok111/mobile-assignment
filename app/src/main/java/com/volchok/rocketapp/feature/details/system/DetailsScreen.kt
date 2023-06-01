@@ -18,14 +18,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.volchok.rocketapp.feature.details.presentation.DetailsViewModel
-import com.volchok.rocketapp.library.ui.RocketColors
+import com.volchok.rocketapp.library.ui.*
 import com.volchok.rocketapp.library.ui.RocketColors.pink
-import com.volchok.rocketapp.library.ui.RocketDimensions
 import com.volchok.rocketapp.library.ui.RocketDimensions.sizeM
 import com.volchok.rocketapp.library.ui.RocketDimensions.sizeS
 import com.volchok.rocketapp.library.ui.RocketDimensions.sizeXS
-import com.volchok.rocketapp.library.ui.RocketIcon
-import com.volchok.rocketapp.library.ui.RocketText
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -75,15 +72,15 @@ private fun DetailsScreenImpl(
                 .fillMaxWidth()
         ) {
             ParametersItem(
-                title = state.rocket?.height?.meters.toString(),
+                title = state.rocket?.height?.meters.toString() + "m",
                 subtitle = stringResource(id = com.volchok.rocketapp.R.string.details_screen_parameters_height)
             )
             ParametersItem(
-                title = state.rocket?.diameter?.meters.toString(),
+                title = state.rocket?.diameter?.meters.toString() + "m",
                 subtitle = stringResource(id = com.volchok.rocketapp.R.string.details_screen_parameters_diameter)
             )
             ParametersItem(
-                title = state.rocket?.mass?.kg.toString(),
+                title = (state.rocket?.mass?.kg?.div(1000)).toString() + "t",
                 subtitle = stringResource(id = com.volchok.rocketapp.R.string.details_screen_parameters_mass)
             )
         }
@@ -92,19 +89,23 @@ private fun DetailsScreenImpl(
 
         RocketInfoCard(
             title = stringResource(id = com.volchok.rocketapp.R.string.details_screen_first_stage),
-            reusable = "reusable",
-            enginesCount = "9",
-            fuel = "385",
-            seconds = "162"
+            reusable = state.rocket?.first_stage?.reusable.let {
+                if (it == true) stringResource(id = com.volchok.rocketapp.R.string.details_screen_reusable) else stringResource(
+                    id = com.volchok.rocketapp.R.string.details_screen_not_reusable
+                )
+            },
+            enginesCount = state.rocket?.first_stage?.engines.toString(),
+            fuel = state.rocket?.first_stage?.fuel_amount_tons.toString(),
+            seconds = state.rocket?.first_stage?.burn_time_sec.toString()
         )
         Spacer(modifier = Modifier.height(sizeS))
 
         RocketInfoCard(
             title = stringResource(id = com.volchok.rocketapp.R.string.details_screen_second_stage),
-            reusable = "not reusable",
-            enginesCount = "1",
-            fuel = "90",
-            seconds = "397"
+            reusable = state.rocket?.second_stage?.reusable.let { if (it == true) "reusable" else "not reusable" },
+            enginesCount = state.rocket?.second_stage?.engines.toString(),
+            fuel = state.rocket?.second_stage?.fuel_amount_tons.toString(),
+            seconds = state.rocket?.second_stage?.burn_time_sec.toString()
         )
         Spacer(modifier = Modifier.height(sizeM))
 
@@ -114,8 +115,6 @@ private fun DetailsScreenImpl(
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.height(sizeS))
-        val imageUrl =
-            "https://content.fortune.com/wp-content/uploads/2020/08/GettyImages-1219672105_web.jpg"
         Card(
             shape = RoundedCornerShape(20.dp),
             modifier = Modifier
@@ -123,7 +122,7 @@ private fun DetailsScreenImpl(
                 .height(250.dp)
         ) {
             Image(
-                painter = rememberAsyncImagePainter(imageUrl),
+                painter = rememberAsyncImagePainter(state.rocket?.flickr_images?.get(0)),
                 contentDescription = null,
                 contentScale = ContentScale.Crop
             )
@@ -137,13 +136,17 @@ private fun DetailsScreenImpl(
                 .height(250.dp)
         ) {
             Image(
-                painter = rememberAsyncImagePainter(imageUrl),
+                painter = rememberAsyncImagePainter(state.rocket?.flickr_images?.get(1)),
                 contentDescription = null,
                 contentScale = ContentScale.Crop
             )
         }
 
         Spacer(modifier = Modifier.height(RocketDimensions.sizeL))
+    }
+
+    if (state.loading) {
+        RocketLoadingDialog(title = "")
     }
 }
 
@@ -170,8 +173,10 @@ private fun ParametersItem(
                 style = MaterialTheme.typography.h5,
                 color = RocketColors.white,
                 fontWeight = FontWeight.Bold,
-                fontSize = 30.sp
-            )
+                fontSize = 28.sp,
+                maxLines = 1,
+
+                )
             Spacer(modifier = Modifier.height(sizeXS))
 
             RocketText(

@@ -14,7 +14,29 @@ class FetchRocketInfoUseCase(
 ) : SuspendUseCase<Unit, Data<RocketDetailsModel>> {
     override suspend fun invoke(input: Unit): Data<RocketDetailsModel> = safeCall {
         rocketInfo()
+//        val result = repository.getRocketInfo(getSelectedRocketIdUseCase())
+//        if (result is Data.Error) {
+//            return result
+//        } else if (result is Data.Success) {
+//            val rocket = RocketDetailsModel(
+//                description = result.value.description,
+//                diameter = result.value.diameter,
+//                engines = result.value.engines,
+//                first_stage = result.value.first_stage,
+//                height = result.value.height,
+//                mass = result.value.mass,
+//                rocket_id = result.value.rocket_id,
+//                rocket_name = result.value.rocket_name,
+//                rocket_type = result.value.rocket_type,
+//                second_stage = result.value.second_stage,
+//                flickr_images = result.value.flickr_images
+//            )
+//            localRocketRepository.set(rocket)
+//            return Data.Success(rocket)
+//        }
+//        throw IllegalStateException("Invalid state for fetch rocket")
     }
+
 
     private suspend fun rocketInfo(): RocketDetailsModel {
         val result = repository.getRocketInfo(getSelectedRocketIdUseCase()).getSuccessValueOrThrow()
@@ -28,7 +50,8 @@ class FetchRocketInfoUseCase(
             rocket_id = result.rocket_id,
             rocket_name = result.rocket_name,
             rocket_type = result.rocket_type,
-            second_stage = result.second_stage
+            second_stage = result.second_stage,
+            flickr_images = result.flickr_images
         )
         localRocketRepository.set(rocket)
         return rocket

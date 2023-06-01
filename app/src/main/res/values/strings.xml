@@ -17,4 +17,6 @@
     <string name="details_screen_first_stage">First stage</string>
     <string name="details_screen_second_stage">Second stage</string>
     <string name="details_screen_photos">Photos</string>
+    <string name="details_screen_reusable">reusable</string>
+    <string name="details_screen_not_reusable">not reusable</string>
 </resources>

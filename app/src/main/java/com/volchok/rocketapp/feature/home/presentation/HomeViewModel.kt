@@ -43,7 +43,6 @@ class HomeViewModel(
         id,
         landing_legs,
         mass,
-        payload_weights,
         rocket_id,
         rocket_name,
         rocket_type,
@@ -55,35 +54,30 @@ class HomeViewModel(
 
     data class State(
         val loading: Boolean = true,
-        val rockets: List<RocketItem> = emptyList()
+        val rockets: List<RocketItem?> = emptyList()
     ) : AbstractViewModel.State {
         data class RocketItem(
-            val active: Boolean = false,
-            val boosters: Int = 0,
-            val company: String = "",
-            val cost_per_launch: Int = 0,
-            val country: String = "",
-            val description: String = "",
+            val active: Boolean? = null,
+            val boosters: Int? = null,
+            val company: String? = null,
+            val cost_per_launch: Int? = null,
+            val country: String? = null,
+            val description: String? = null,
             val diameter: Diameter? = null,
             val engines: Engines? = null,
-            val first_flight: String = "",
+            val first_flight: String? = null,
             val first_stage: FirstStage? = null,
             val height: Height? = null,
-            val id: Int = 0,
+            val id: Int? = null,
             val landing_legs: LandingLegs? = null,
             val mass: Mass? = null,
-            val payload_weights: List<PayloadWeight> = emptyList(),
-            val rocket_id: String = "",
-            val rocket_name: String = "",
-            val rocket_type: String = "",
+            val rocket_id: String? = null,
+            val rocket_name: String? = null,
+            val rocket_type: String? = null,
             val second_stage: SecondStage? = null,
-            val stages: Int = 0,
-            val success_rate_pct: Int = 0,
-            val wikipedia: String = ""
-        )
-
-        data class RocketModel(
-            val rocketModel: List<RocketItem> = emptyList()
+            val stages: Int? = null,
+            val success_rate_pct: Int? = null,
+            val wikipedia: String? = null
         )
     }
 }

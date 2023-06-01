@@ -2,6 +2,7 @@ package com.volchok.rocketapp.library.api.di
 
 import com.volchok.rocketapp.library.api.data.RocketApi
 import com.volchok.rocketapp.library.api.data.RocketRepository
+import com.volchok.rocketapp.library.api.domain.GetRocketInfoUseCase
 import com.volchok.rocketapp.library.api.domain.ObserveRocketsUseCase
 import com.volchok.rocketapp.library.api.domain.RemoteRepository
 import org.koin.core.module.dsl.factoryOf
@@ -19,6 +20,7 @@ val apiModule = module {
             .create(RocketApi::class.java)
     }
     factoryOf(::ObserveRocketsUseCase)
+    factoryOf(::GetRocketInfoUseCase)
 
     factoryOf(::RocketRepository) bind RemoteRepository::class
 }

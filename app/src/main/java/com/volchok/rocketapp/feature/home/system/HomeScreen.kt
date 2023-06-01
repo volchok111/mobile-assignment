@@ -72,17 +72,18 @@ private fun HomeScreenImpl(
                     .background(RocketColors.white)
                     .padding(start = sizeS, end = sizeS)
             ) {
-                //TODO Add dividers
                 LazyColumn {
                     itemsIndexed(state.rockets) { index, item ->
                         if (index != 0 && index != 4) {
                             Divider(color = RocketColors.chrome100, thickness = 1.dp)
                         }
                         Spacer(modifier = Modifier.height(sizeXS))
-                        RocketListItem(
-                            item = item,
-                            modifier = Modifier.clickable { onItem(item.rocket_id) }
-                        )
+                        if (item != null) {
+                            RocketListItem(
+                                item = item,
+                                modifier = Modifier.clickable { item.rocket_id?.let { onItem(it) } }
+                            )
+                        }
                         Spacer(modifier = Modifier.height(sizeXS))
                     }
                 }
@@ -111,17 +112,19 @@ private fun RocketListItem(
             tint = RocketColors.pink,
             modifier = Modifier
                 .size(RocketDimensions.sizeL)
-                .padding(end = RocketDimensions.sizeXS)
+                .padding(end = sizeXS)
                 .align(Alignment.CenterVertically)
         )
 
         Column(modifier = Modifier.weight(1f)) {
-            RocketText(
-                text = item.rocket_name,
-                style = MaterialTheme.typography.h6,
-                color = chrome900,
-                fontWeight = FontWeight.Bold
-            )
+            item.rocket_name?.let {
+                RocketText(
+                    text = it,
+                    style = MaterialTheme.typography.h6,
+                    color = chrome900,
+                    fontWeight = FontWeight.Bold
+                )
+            }
             RocketText(
                 text = "${stringResource(id = R.string.home_screen_first_flight)} ${item.first_flight}",
                 style = MaterialTheme.typography.subtitle2,
