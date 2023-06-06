@@ -102,7 +102,11 @@ private fun DetailsScreenImpl(
 
         RocketInfoCard(
             title = stringResource(id = com.volchok.rocketapp.R.string.details_screen_second_stage),
-            reusable = state.rocket?.second_stage?.reusable.let { if (it == true) "reusable" else "not reusable" },
+            reusable = state.rocket?.second_stage?.reusable.let {
+                if (it == true) stringResource(id = com.volchok.rocketapp.R.string.details_screen_reusable) else stringResource(
+                    id = com.volchok.rocketapp.R.string.details_screen_not_reusable
+                )
+            },
             enginesCount = state.rocket?.second_stage?.engines.toString(),
             fuel = state.rocket?.second_stage?.fuel_amount_tons.toString(),
             seconds = state.rocket?.second_stage?.burn_time_sec.toString()
