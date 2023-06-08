@@ -1,6 +1,6 @@
 package com.volchok.rocketapp.feature.home.domain
 
-interface RocketsNavigationController {
+interface HomeNavigationController {
 
     fun goToRocketInfo()
 }

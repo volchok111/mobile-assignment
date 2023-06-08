@@ -1,4 +1,4 @@
-package com.volchok.rocketapp.feature.accelerometer.presentation
+package com.volchok.rocketapp.feature.sensor.presentation
 
 import android.graphics.Bitmap
 import com.volchok.rocketapp.library.mvvm.presentation.AbstractViewModel

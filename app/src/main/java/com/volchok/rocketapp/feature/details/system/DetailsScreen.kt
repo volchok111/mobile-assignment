@@ -20,6 +20,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.volchok.rocketapp.feature.details.presentation.DetailsViewModel
 import com.volchok.rocketapp.library.ui.*
 import com.volchok.rocketapp.library.ui.RocketColors.pink
+import com.volchok.rocketapp.library.ui.RocketDimensions.sizeL
 import com.volchok.rocketapp.library.ui.RocketDimensions.sizeM
 import com.volchok.rocketapp.library.ui.RocketDimensions.sizeS
 import com.volchok.rocketapp.library.ui.RocketDimensions.sizeXS
@@ -31,14 +32,20 @@ fun DetailsScreen() {
     val state = viewModel.states.collectAsState()
 
     DetailsScreenImpl(
-        state = state.value
+        state = state.value,
+        viewModel::onOpenRocketLaunch
     )
 }
 
 @Composable
 private fun DetailsScreenImpl(
-    state: DetailsViewModel.State
+    state: DetailsViewModel.State,
+    onOpenRocketLaunch: () -> Unit = {}
 ) {
+    Spacer(modifier = Modifier.height(sizeL))
+    RocketActionButton(text = "Launch", onClick = { onOpenRocketLaunch() })
+    Spacer(modifier = Modifier.height(sizeL))
+
     Column(
         modifier = Modifier
             .fillMaxSize()

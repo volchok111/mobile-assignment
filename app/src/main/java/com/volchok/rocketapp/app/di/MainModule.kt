@@ -6,7 +6,8 @@ import com.volchok.rocketapp.app.domain.MainNavigationController
 import com.volchok.rocketapp.app.domain.ObserveNavigationEventsUseCase
 import com.volchok.rocketapp.app.presentation.MainViewModel
 import com.volchok.rocketapp.app.presentation.SplashViewModel
-import com.volchok.rocketapp.feature.home.domain.RocketsNavigationController
+import com.volchok.rocketapp.feature.details.domain.RocketNavigationController
+import com.volchok.rocketapp.feature.home.domain.HomeNavigationController
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.binds
@@ -20,7 +21,8 @@ internal val mainModule = module {
     single { GlobalNavigationController() }.binds(
         arrayOf(
             MainNavigationController::class,
-            RocketsNavigationController::class
+            HomeNavigationController::class,
+            RocketNavigationController::class
         )
     )
 

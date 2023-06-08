@@ -17,6 +17,7 @@ import com.volchok.rocketapp.app.model.Route
 import com.volchok.rocketapp.app.presentation.MainViewModel
 import com.volchok.rocketapp.feature.details.system.DetailsScreen
 import com.volchok.rocketapp.feature.home.system.HomeScreen
+import com.volchok.rocketapp.feature.sensor.system.RocketLaunchScreen
 import com.volchok.rocketapp.ui.theme.RocketAppTheme
 import org.koin.androidx.compose.getViewModel
 
@@ -66,6 +67,7 @@ private fun Screens(
         //composable(Route.Splash()) { SplashScreen() }
         composable(Route.Home()) { HomeScreen() }
         composable(Route.Details()) { DetailsScreen() }
+        composable(Route.Rocket()) { RocketLaunchScreen() }
     }
 }
 

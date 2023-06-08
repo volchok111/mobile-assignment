@@ -5,6 +5,7 @@ import com.volchok.rocketapp.app.di.mainModule
 import com.volchok.rocketapp.feature.details.di.detailsModule
 import com.volchok.rocketapp.feature.home.di.homeModule
 import com.volchok.rocketapp.feature.rocket.di.rocketModule
+import com.volchok.rocketapp.feature.sensor.di.sensorModule
 import com.volchok.rocketapp.library.api.di.apiModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -18,7 +19,8 @@ class MainApplication : Application() {
                 homeModule,
                 detailsModule,
                 apiModule,
-                rocketModule
+                rocketModule,
+                sensorModule
             )
         }
         super.onCreate()

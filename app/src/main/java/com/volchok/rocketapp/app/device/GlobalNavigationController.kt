@@ -5,13 +5,15 @@ import com.volchok.rocketapp.app.model.BackNavigationEvent
 import com.volchok.rocketapp.app.model.ForwardNavigationEvent
 import com.volchok.rocketapp.app.model.NavigationEvent
 import com.volchok.rocketapp.app.model.Route
-import com.volchok.rocketapp.feature.home.domain.RocketsNavigationController
+import com.volchok.rocketapp.feature.home.domain.HomeNavigationController
+import com.volchok.rocketapp.feature.details.domain.RocketNavigationController
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 
 class GlobalNavigationController :
     MainNavigationController,
-    RocketsNavigationController{
+    HomeNavigationController,
+    RocketNavigationController {
 
     private val _navigationEvent = MutableSharedFlow<NavigationEvent>(extraBufferCapacity = 1)
     override val navigationEvent = _navigationEvent.asSharedFlow()
@@ -23,6 +25,8 @@ class GlobalNavigationController :
     override fun goToHome() = goTo(ForwardNavigationEvent(Route.Home, true))
 
     override fun goToRocketInfo() = goTo(ForwardNavigationEvent(Route.Details))
+
+    override fun goToLaunch() = goTo(ForwardNavigationEvent(Route.Rocket))
 
     private fun goTo(route: Route) = goTo(ForwardNavigationEvent(route))
 

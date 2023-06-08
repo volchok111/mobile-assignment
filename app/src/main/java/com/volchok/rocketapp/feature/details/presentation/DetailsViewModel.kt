@@ -1,6 +1,7 @@
 package com.volchok.rocketapp.feature.details.presentation
 
 import androidx.lifecycle.viewModelScope
+import com.volchok.rocketapp.feature.details.domain.OpenRocketLaunchUseCase
 import com.volchok.rocketapp.feature.rocket.domain.FetchRocketInfoUseCase
 import com.volchok.rocketapp.feature.rocket.domain.ObserveRocketDetailsUseCase
 import com.volchok.rocketapp.library.api.domain.GetRocketInfoUseCase
@@ -13,7 +14,8 @@ import kotlinx.coroutines.launch
 class DetailsViewModel(
     private val fetchRocketInfoUseCase: FetchRocketInfoUseCase,
     private val observeRocketDetailsUseCase: ObserveRocketDetailsUseCase,
-   // private val getRocketInfoUseCase: GetRocketInfoUseCase
+    // private val getRocketInfoUseCase: GetRocketInfoUseCase
+    private val openRocketLaunchUseCase: OpenRocketLaunchUseCase
 ) : AbstractViewModel<DetailsViewModel.State>(State()) {
 
     init {
@@ -26,6 +28,10 @@ class DetailsViewModel(
                 state = state.copy(rocket = it, loading = false)
             }
         }
+    }
+
+    fun onOpenRocketLaunch() {
+        openRocketLaunchUseCase()
     }
 
     data class State(
