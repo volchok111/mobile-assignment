@@ -1,17 +1,17 @@
 package com.volchok.rocketapp.feature.sensor.device
 
+import com.volchok.rocketapp.feature.sensor.RocketStages
 import com.volchok.rocketapp.feature.sensor.domain.SensorController
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 
 class AndroidSensorController : SensorController {
 
-    private val launchResult = MutableSharedFlow<Boolean>()
+    private val launchResult = MutableSharedFlow<RocketStages>(extraBufferCapacity = 1)
 
-    fun onLaunched(result: Boolean) {
+    fun onLaunched(result: RocketStages) {
         launchResult.tryEmit(result)
     }
 
-
-    override fun launchRocket(): Flow<Boolean> = launchResult
+    override fun launchRocket(): Flow<RocketStages> = launchResult
 }

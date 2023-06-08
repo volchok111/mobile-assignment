@@ -42,9 +42,7 @@ private fun DetailsScreenImpl(
     state: DetailsViewModel.State,
     onOpenRocketLaunch: () -> Unit = {}
 ) {
-    Spacer(modifier = Modifier.height(sizeL))
-    RocketActionButton(text = "Launch", onClick = { onOpenRocketLaunch() })
-    Spacer(modifier = Modifier.height(sizeL))
+
 
     Column(
         modifier = Modifier
@@ -52,6 +50,10 @@ private fun DetailsScreenImpl(
             .padding(sizeS)
             .verticalScroll(rememberScrollState())
     ) {
+
+        Spacer(modifier = Modifier.height(sizeL))
+        RocketPrimaryButton(text = "Launch", onClick = { onOpenRocketLaunch() })
+        Spacer(modifier = Modifier.height(sizeL))
 
         RocketText(
             text = stringResource(id = com.volchok.rocketapp.R.string.details_screen_overview),

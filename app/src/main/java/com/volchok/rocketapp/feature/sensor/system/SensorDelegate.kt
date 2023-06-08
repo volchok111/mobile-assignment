@@ -6,15 +6,13 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import androidx.activity.ComponentActivity
-import androidx.core.graphics.rotationMatrix
+import com.volchok.rocketapp.feature.sensor.RocketStages
 import com.volchok.rocketapp.feature.sensor.device.AndroidSensorController
-import com.volchok.rocketapp.feature.sensor.presentation.RocketLaunchViewModel
 
 class SensorDelegate(
     private val sensorController: AndroidSensorController
 ) {
     private lateinit var activity: ComponentActivity
-    private lateinit var state: RocketLaunchViewModel.State
 
     private val sensorEventListener = object : SensorEventListener {
 
@@ -22,18 +20,18 @@ class SensorDelegate(
             if (event?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
                 val upDown = event.values[1]
 
-
+                if (upDown.toInt() == 0) {
+                    sensorController.onLaunched(RocketStages.Start)
+                }
 //                state.rocket.apply {
 //                    rotationMatrix(upDown * 3f)
 //                }
-                sensorController.onLaunched(true)
             }
         }
 
         override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
             return
         }
-
     }
 
     fun onCreate(activity: ComponentActivity) {
@@ -51,7 +49,7 @@ class SensorDelegate(
                 sensorEventListener,
                 it,
                 SensorManager.SENSOR_DELAY_FASTEST,
-               // SensorManager.SENSOR_DELAY_FASTEST
+                // SensorManager.SENSOR_DELAY_FASTEST
             )
         }
     }
