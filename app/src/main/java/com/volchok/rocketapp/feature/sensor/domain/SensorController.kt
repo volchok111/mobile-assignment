@@ -1,6 +1,6 @@
 package com.volchok.rocketapp.feature.sensor.domain
 
-import com.volchok.rocketapp.feature.sensor.RocketStages
+import com.volchok.rocketapp.feature.sensor.model.RocketStages
 import kotlinx.coroutines.flow.Flow
 
 interface SensorController {

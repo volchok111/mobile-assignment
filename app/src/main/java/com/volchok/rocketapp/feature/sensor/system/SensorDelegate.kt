@@ -6,7 +6,7 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import androidx.activity.ComponentActivity
-import com.volchok.rocketapp.feature.sensor.RocketStages
+import com.volchok.rocketapp.feature.sensor.model.RocketStages
 import com.volchok.rocketapp.feature.sensor.device.AndroidSensorController
 
 class SensorDelegate(

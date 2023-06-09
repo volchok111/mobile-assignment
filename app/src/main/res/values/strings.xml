@@ -19,4 +19,8 @@
     <string name="details_screen_photos">Photos</string>
     <string name="details_screen_reusable">reusable</string>
     <string name="details_screen_not_reusable">not reusable</string>
+
+    <!-- MARK: - Rocket Launch Screen -->
+    <string name="launch_screen_move_phone">Move your phone to launch the rocket</string>
+    <string name="launch_screen_launch_success">Launch successful!</string>
 </resources>
