@@ -13,19 +13,28 @@ class RocketLaunchViewModel(
 
     init {
         viewModelScope.launch {
-            observeRocketStageUseCase(Unit).collect { onRocketStageChanged(it) }
+            observeRocketStageUseCase(Unit).collect { onRocketStartStage(it) }
+        }
+
+        viewModelScope.launch {
+            observeRocketStageUseCase(Unit).collect { onRocketFlyingStage(it) }
         }
     }
 
-    private fun onRocketStageChanged(stage: RocketStages) {
-        state = state.copy(isReady = stage == RocketStages.Start)
+    private fun onRocketStartStage(stage: RocketStages) {
+        state = state.copy(isStageStart = stage == RocketStages.Start)
+    }
+
+    private fun onRocketFlyingStage(stage: RocketStages) {
+        state = state.copy(isStageFlying = stage == RocketStages.Flying)
     }
 
 
     data class State(
         val test: String = "",
         val rocket: Bitmap? = null,
-        val isReady: Boolean = false
+        val isStageStart: Boolean = false,
+        val isStageFlying: Boolean = false,
     ) : AbstractViewModel.State
 
 

@@ -20,12 +20,12 @@ class SensorDelegate(
             if (event?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
                 val upDown = event.values[1]
 
-                if (upDown.toInt() == 0) {
-                    sensorController.onLaunched(RocketStages.Start)
-                }
-//                state.rocket.apply {
-//                    rotationMatrix(upDown * 3f)
+//                if (upDown.toInt() == 0) {
+//                    sensorController.onLaunched(RocketStages.Start)
 //                }
+                if (upDown.toInt() > 0) {
+                    sensorController.onLaunched(RocketStages.Flying)
+                }
             }
         }
 
@@ -49,7 +49,7 @@ class SensorDelegate(
                 sensorEventListener,
                 it,
                 SensorManager.SENSOR_DELAY_FASTEST,
-                // SensorManager.SENSOR_DELAY_FASTEST
+                SensorManager.SENSOR_DELAY_FASTEST
             )
         }
     }

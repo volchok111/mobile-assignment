@@ -1,4 +1,4 @@
-package com.volchok.rocketapp.feature.rocket.domain
+package com.volchok.rocketapp.library.rockets.domain
 
 interface RocketRepository {
     var selectedRocketId: String

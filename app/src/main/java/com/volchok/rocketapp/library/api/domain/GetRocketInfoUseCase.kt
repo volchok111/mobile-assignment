@@ -1,6 +1,6 @@
 package com.volchok.rocketapp.library.api.domain
 
-import com.volchok.rocketapp.feature.rocket.domain.GetSelectedRocketIdUseCase
+import com.volchok.rocketapp.library.rockets.domain.GetSelectedRocketIdUseCase
 import com.volchok.rocketapp.library.api.model.details.RocketDetailsModel
 import com.volchok.rocketapp.library.data.model.Data
 import com.volchok.rocketapp.library.use_case.domain.SuspendUseCase

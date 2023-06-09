@@ -1,8 +1,8 @@
-package com.volchok.rocketapp.feature.rocket.di
+package com.volchok.rocketapp.library.rockets.di
 
-import com.volchok.rocketapp.feature.rocket.data.MemoryRocketDetailsRepository
-import com.volchok.rocketapp.feature.rocket.data.MemoryRocketRepository
-import com.volchok.rocketapp.feature.rocket.domain.*
+import com.volchok.rocketapp.library.rockets.data.MemoryRocketDetailsRepository
+import com.volchok.rocketapp.library.rockets.data.MemoryRocketRepository
+import com.volchok.rocketapp.library.rockets.domain.*
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
