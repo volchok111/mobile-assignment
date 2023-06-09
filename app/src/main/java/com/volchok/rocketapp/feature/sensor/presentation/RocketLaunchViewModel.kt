@@ -26,6 +26,4 @@ class RocketLaunchViewModel(
         val rocket: Bitmap? = null,
         val isStageFlying: Boolean = false,
     ) : AbstractViewModel.State
-
-
 }

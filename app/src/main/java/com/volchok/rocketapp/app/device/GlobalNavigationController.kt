@@ -5,8 +5,8 @@ import com.volchok.rocketapp.app.model.BackNavigationEvent
 import com.volchok.rocketapp.app.model.ForwardNavigationEvent
 import com.volchok.rocketapp.app.model.NavigationEvent
 import com.volchok.rocketapp.app.model.Route
-import com.volchok.rocketapp.feature.home.domain.HomeNavigationController
 import com.volchok.rocketapp.feature.details.domain.RocketNavigationController
+import com.volchok.rocketapp.feature.home.domain.HomeNavigationController
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 

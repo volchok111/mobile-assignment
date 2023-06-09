@@ -18,8 +18,8 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.volchok.rocketapp.library.ui.RocketColors.pink
 import com.volchok.rocketapp.library.ui.RocketColors.chrome900
+import com.volchok.rocketapp.library.ui.RocketColors.pink
 import com.volchok.rocketapp.library.ui.RocketColors.white
 
 @Composable
@@ -38,7 +38,8 @@ fun RocketAlertDialog(
 ) {
     Dialog(
         onDismissRequest = onDismiss,
-        properties = dialogProperties
+        properties = dialogProperties,
+
     ) {
         Surface(
             modifier = modifier,
@@ -51,7 +52,7 @@ fun RocketAlertDialog(
             ) {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.h2,
+                    style = MaterialTheme.typography.h6,
                     modifier = Modifier
                         .padding(RocketDimensions.sizeS)
                 )

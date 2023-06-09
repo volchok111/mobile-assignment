@@ -21,7 +21,6 @@ class FetchRocketInfoUseCase(
         val rocket = RocketDetailsModel(
             description = result.description,
             diameter = result.diameter,
-            engines = result.engines,
             first_stage = result.first_stage,
             height = result.height,
             mass = result.mass,

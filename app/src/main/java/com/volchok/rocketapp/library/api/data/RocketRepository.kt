@@ -1,7 +1,7 @@
 package com.volchok.rocketapp.library.api.data
 
 import com.volchok.rocketapp.library.api.domain.RemoteRepository
-import com.volchok.rocketapp.library.api.model.RocketItem
+import com.volchok.rocketapp.library.api.model.home.RocketItem
 import com.volchok.rocketapp.library.api.model.details.RocketDetailsModel
 import com.volchok.rocketapp.library.data.model.Data
 

@@ -52,7 +52,9 @@ private fun DetailsScreenImpl(
     ) {
 
         Spacer(modifier = Modifier.height(sizeL))
-        RocketPrimaryButton(text = stringResource(id = com.volchok.rocketapp.R.string.details_screen_launch_btn), onClick = { onOpenRocketLaunch() })
+        RocketPrimaryButton(
+            text = stringResource(id = com.volchok.rocketapp.R.string.details_screen_launch_btn),
+            onClick = { onOpenRocketLaunch() })
         Spacer(modifier = Modifier.height(sizeL))
 
         RocketText(

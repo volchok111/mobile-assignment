@@ -4,7 +4,7 @@ import com.volchok.rocketapp.library.use_case.domain.SynchronousUseCase
 
 class OpenRocketLaunchUseCase(
     private val rocketNavigationController: RocketNavigationController
-) : SynchronousUseCase<Unit, Unit>{
+) : SynchronousUseCase<Unit, Unit> {
     override fun invoke(input: Unit) {
         rocketNavigationController.goToLaunch()
     }
