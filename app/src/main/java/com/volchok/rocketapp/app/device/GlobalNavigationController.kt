@@ -20,15 +20,11 @@ class GlobalNavigationController :
 
     override fun goBack() = goTo(BackNavigationEvent)
 
-    override fun goToSplash() = goTo(Route.Splash)
-
     override fun goToHome() = goTo(ForwardNavigationEvent(Route.Home, true))
 
     override fun goToRocketInfo() = goTo(ForwardNavigationEvent(Route.Details))
 
-    override fun goToLaunch() = goTo(ForwardNavigationEvent(Route.Rocket))
-
-    private fun goTo(route: Route) = goTo(ForwardNavigationEvent(route))
+    override fun goToLaunch() = goTo(ForwardNavigationEvent(Route.RocketLaunch))
 
     private fun goTo(navigationEvent: NavigationEvent) {
         _navigationEvent.tryEmit(navigationEvent)

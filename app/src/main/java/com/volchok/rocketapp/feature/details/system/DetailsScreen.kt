@@ -52,7 +52,7 @@ private fun DetailsScreenImpl(
     ) {
 
         Spacer(modifier = Modifier.height(sizeL))
-        RocketPrimaryButton(text = "Launch", onClick = { onOpenRocketLaunch() })
+        RocketPrimaryButton(text = stringResource(id = com.volchok.rocketapp.R.string.details_screen_launch_btn), onClick = { onOpenRocketLaunch() })
         Spacer(modifier = Modifier.height(sizeL))
 
         RocketText(
@@ -81,15 +81,15 @@ private fun DetailsScreenImpl(
                 .fillMaxWidth()
         ) {
             ParametersItem(
-                title = state.rocket?.height?.meters.toString() + "m",
+                title = state.rocket?.height?.meters.toString() + stringResource(id = com.volchok.rocketapp.R.string.details_screen_m),
                 subtitle = stringResource(id = com.volchok.rocketapp.R.string.details_screen_parameters_height)
             )
             ParametersItem(
-                title = state.rocket?.diameter?.meters.toString() + "m",
+                title = state.rocket?.diameter?.meters.toString() + stringResource(id = com.volchok.rocketapp.R.string.details_screen_m),
                 subtitle = stringResource(id = com.volchok.rocketapp.R.string.details_screen_parameters_diameter)
             )
             ParametersItem(
-                title = (state.rocket?.mass?.kg?.div(1000)).toString() + "t",
+                title = (state.rocket?.mass?.kg?.div(1000)).toString() + stringResource(id = com.volchok.rocketapp.R.string.details_screen_t),
                 subtitle = stringResource(id = com.volchok.rocketapp.R.string.details_screen_parameters_mass)
             )
         }
@@ -155,7 +155,7 @@ private fun DetailsScreenImpl(
             )
         }
 
-        Spacer(modifier = Modifier.height(RocketDimensions.sizeL))
+        Spacer(modifier = Modifier.height(sizeL))
     }
 
     if (state.loading) {

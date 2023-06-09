@@ -64,10 +64,9 @@ private fun Screens(
         startDestination = Route.Initial(),
         modifier = modifier
     ) {
-        //composable(Route.Splash()) { SplashScreen() }
         composable(Route.Home()) { HomeScreen() }
         composable(Route.Details()) { DetailsScreen() }
-        composable(Route.Rocket()) { RocketLaunchScreen() }
+        composable(Route.RocketLaunch()) { RocketLaunchScreen() }
     }
 }
 
@@ -95,7 +94,6 @@ private fun NavigationEffect(
                 }
             }
             null -> Unit
-            // else -> {}
         }
     }
 }

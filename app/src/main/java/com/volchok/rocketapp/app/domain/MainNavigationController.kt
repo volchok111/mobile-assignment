@@ -8,8 +8,6 @@ interface MainNavigationController {
 
     fun goBack()
 
-    fun goToSplash()
-
     fun goToHome()
 
 }

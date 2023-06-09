@@ -29,7 +29,8 @@ class FetchRocketInfoUseCase(
             rocket_name = result.rocket_name,
             rocket_type = result.rocket_type,
             second_stage = result.second_stage,
-            flickr_images = result.flickr_images
+            flickr_images = result.flickr_images,
+            id = result.id
         )
         localRocketRepository.set(rocket)
         return rocket

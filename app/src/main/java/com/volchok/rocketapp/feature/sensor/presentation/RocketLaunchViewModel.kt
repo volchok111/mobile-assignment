@@ -18,7 +18,7 @@ class RocketLaunchViewModel(
     }
 
     private fun onRocketFlyingStage(stage: RocketStages) {
-        state = state.copy(isStageFlying = stage == RocketStages.Flying)
+        state = state.copy(isStageFlying = stage == RocketStages.FlyingStage)
     }
 
     data class State(

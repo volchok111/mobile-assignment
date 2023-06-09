@@ -38,7 +38,7 @@ fun RocketLaunchScreen() {
 private fun RocketLaunchScreenImpl(
     state: RocketLaunchViewModel.State
 ) {
-    val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.success1))
+    val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.success))
     val progress by animateLottieCompositionAsState(
         composition = composition,
         isPlaying = state.isStageFlying,
@@ -80,7 +80,7 @@ private fun RocketLaunchScreenImpl(
             Spacer(modifier = Modifier.height(sizeL))
             RocketText(
                 text = stringResource(id = R.string.launch_screen_move_phone),
-                style = MaterialTheme.typography.subtitle1,
+                style = MaterialTheme.typography.h6,
                 modifier = Modifier.padding(bottom = sizeXXL)
             )
         }
@@ -92,7 +92,7 @@ private fun RocketLaunchScreenImpl(
         ) {
             RocketText(
                 text = stringResource(id = R.string.launch_screen_launch_success),
-                style = MaterialTheme.typography.subtitle1,
+                style = MaterialTheme.typography.h6,
                 modifier = Modifier.padding(bottom = sizeXXL)
             )
         }

@@ -18,13 +18,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.volchok.rocketapp.R
 import com.volchok.rocketapp.feature.home.presentation.HomeViewModel
-import com.volchok.rocketapp.library.ui.RocketColors
+import com.volchok.rocketapp.library.ui.*
 import com.volchok.rocketapp.library.ui.RocketColors.chrome900
-import com.volchok.rocketapp.library.ui.RocketDimensions
 import com.volchok.rocketapp.library.ui.RocketDimensions.sizeS
 import com.volchok.rocketapp.library.ui.RocketDimensions.sizeXS
-import com.volchok.rocketapp.library.ui.RocketIcon
-import com.volchok.rocketapp.library.ui.RocketText
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -55,7 +52,7 @@ private fun HomeScreenImpl(
             modifier = Modifier.fillMaxWidth()
         ) {
             RocketText(
-                text = stringResource(id = com.volchok.rocketapp.R.string.home_screen_title),
+                text = stringResource(id = R.string.home_screen_title),
                 style = MaterialTheme.typography.h4,
                 fontWeight = FontWeight.Bold,
                 color = chrome900
@@ -91,9 +88,9 @@ private fun HomeScreenImpl(
         }
     }
 
-//    if (state.loading) {
-//        RocketLoadingDialog(title = "")
-//    }
+    if (state.loading) {
+        RocketLoadingDialog(title = "")
+    }
 }
 
 @Composable

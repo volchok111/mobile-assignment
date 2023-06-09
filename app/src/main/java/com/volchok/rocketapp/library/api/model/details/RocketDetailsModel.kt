@@ -6,7 +6,7 @@ data class RocketDetailsModel(
     val engines: Engines? = null,
     val first_stage: FirstStage? = null,
     val height: Height? = null,
-   // val id: Int,
+    val id: Int,
     val mass: Mass? = null,
     val rocket_id: String? = null,
     val rocket_name: String? = null,
