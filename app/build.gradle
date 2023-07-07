@@ -89,9 +89,10 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:$okhttp")
 
     //Tests
-//    testImplementation "io.mockk:mockk:1.13.2"
-//    testImplementation "io.mockk:mockk-agent-jvm:1.13.2"
+    testImplementation "io.mockk:mockk:1.13.2"
+    testImplementation "io.mockk:mockk-agent-jvm:1.13.2"
     testImplementation 'junit:junit:4.13.2'
-    testImplementation "org.mockito.kotlin:mockito-kotlin:5.0.0"
     testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.2"
+    testImplementation 'io.kotest:kotest-assertions-core:2.4.1'
 }
