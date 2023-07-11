@@ -13,11 +13,14 @@ internal class OpenRocketInfoUseCaseTest {
     fun `verify if opens rocket info screen, with correct id`() {
         val rocketId = "falcon_heavy"
 
-        coEvery { rocketRepository.selectedRocketId } returns rocketId
+        every { rocketRepository.selectedRocketId } returns rocketId
 
         every { homeNavigationController.goToRocketInfo() } just runs
 
-
-        // verify { homeNavigationController.goToRocketInfo() }
+        val openRocketInfoUseCase =
+            OpenRocketInfoUseCase(homeNavigationController, rocketRepository)
+//        openRocketInfoUseCase.invoke(rocketId)
+//
+//        verify { homeNavigationController.goToRocketInfo() }
     }
 }

@@ -22,7 +22,6 @@ class RocketLaunchViewModel(
     }
 
     data class State(
-        val test: String = "",
         val rocket: Bitmap? = null,
         val isStageFlying: Boolean = false,
     ) : AbstractViewModel.State

@@ -3,6 +3,7 @@ package com.volchok.rocketapp.feature.home.presentation
 import com.volchok.rocketapp.feature.home.domain.OpenRocketInfoUseCase
 import com.volchok.rocketapp.library.api.domain.ObserveRocketsUseCase
 import com.volchok.rocketapp.library.data.model.Data
+import io.kotest.matchers.shouldBe
 import io.mockk.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -39,15 +40,26 @@ internal class HomeViewModelTest {
 
         verify { openRocketInfoUseCase.invoke(rocketId) }
 
-//        advanceUntilIdle()
-//        homeViewModel.states.value shouldBe
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `should return rockets`() = runTest {
+
+        advanceUntilIdle()
+
+        coEvery { observeRocketsUseCase.invoke(Unit) } returns flowOf(Data.Success(emptyList()))
+
+        val homeViewModel = HomeViewModel(observeRocketsUseCase, openRocketInfoUseCase)
+
+        homeViewModel.states.value.rockets shouldBe emptyList()
+
+        // homeViewModel.states.value.loading shouldBe false
+    }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @After
     fun tearDown() {
         Dispatchers.resetMain()
     }
-
 }
