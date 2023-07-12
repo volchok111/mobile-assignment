@@ -10,17 +10,17 @@ internal class OpenRocketInfoUseCaseTest {
     private val rocketRepository = mockk<RocketRepository>()
 
     @Test
-    fun `verify if opens rocket info screen, with correct id`() {
+    fun `check if opens rocket info screen, with correct id`() {
         val rocketId = "falcon_heavy"
 
-        every { rocketRepository.selectedRocketId } returns rocketId
+        every { rocketRepository.selectedRocketId = any() } just runs
 
         every { homeNavigationController.goToRocketInfo() } just runs
 
         val openRocketInfoUseCase =
             OpenRocketInfoUseCase(homeNavigationController, rocketRepository)
-//        openRocketInfoUseCase.invoke(rocketId)
-//
-//        verify { homeNavigationController.goToRocketInfo() }
+        openRocketInfoUseCase.invoke(rocketId)
+
+        verify { homeNavigationController.goToRocketInfo() }
     }
 }

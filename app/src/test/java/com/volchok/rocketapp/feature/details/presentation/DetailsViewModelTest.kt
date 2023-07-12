@@ -56,9 +56,7 @@ internal class DetailsViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `should fetch rockets info , return rocket details model`() = runTest {
-
-        advanceUntilIdle()
+    fun `check loading state and rocket's details model state`() = runTest {
 
         coEvery { fetchRocketInfoUseCase.invoke() } returns Data.Success(testRocketDetailsModel)
 
@@ -70,9 +68,12 @@ internal class DetailsViewModelTest {
             openRocketLaunchUseCase
         )
 
-        detailsViewModel.states.value.rocket shouldBe testRocketDetailsModel
-    }
+        advanceUntilIdle()
 
+        detailsViewModel.states.value.rocket shouldBe testRocketDetailsModel
+
+        detailsViewModel.states.value.loading shouldBe false
+    }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @After
