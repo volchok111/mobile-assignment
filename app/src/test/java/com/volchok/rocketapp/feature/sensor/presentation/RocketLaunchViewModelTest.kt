@@ -16,6 +16,7 @@ import org.junit.Test
 internal class RocketLaunchViewModelTest {
 
     private val observeRocketStageUseCase = mockk<ObserveRocketStageUseCase>()
+    private fun createViewModel() = RocketLaunchViewModel(observeRocketStageUseCase)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
@@ -26,11 +27,11 @@ internal class RocketLaunchViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `check if launching stage is correct`() = runTest {
+    fun `should check the correctness of launching stage`() = runTest {
 
         coEvery { observeRocketStageUseCase.invoke(Unit) } returns flowOf(RocketStages.FlyingStage)
 
-        val rocketLaunchViewModel = RocketLaunchViewModel(observeRocketStageUseCase)
+        val rocketLaunchViewModel = createViewModel()
 
         advanceUntilIdle()
 

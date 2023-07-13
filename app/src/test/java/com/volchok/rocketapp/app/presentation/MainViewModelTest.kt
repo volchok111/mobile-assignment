@@ -22,6 +22,9 @@ internal class MainViewModelTest {
     private val networkConnection = mockk<NetworkConnection>()
     private val navigationEvent = mockk<NavigationEvent>()
 
+    private fun createViewModel() =
+        MainViewModel(observeNavigationEventsUseCase, observeConnectionUseCase)
+
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setUp() {
@@ -30,13 +33,13 @@ internal class MainViewModelTest {
     }
 
     @Test
-    fun `control navigation between screens`() {
+    fun `should navigate between screens`() {
 
         every { observeNavigationEventsUseCase.invoke(Unit) } returns flowOf(navigationEvent)
 
         every { observeConnectionUseCase.invoke(Unit) } returns flowOf(networkConnection)
 
-        val mainViewModel = MainViewModel(observeNavigationEventsUseCase, observeConnectionUseCase)
+        val mainViewModel = createViewModel()
 
         mainViewModel.onNavigationEventConsumed()
 
@@ -44,13 +47,13 @@ internal class MainViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `checking network connection default state `() = runTest {
+    fun `should check network connection default state `() = runTest {
 
         every { observeNavigationEventsUseCase.invoke(Unit) } returns flowOf(navigationEvent)
 
         every { observeConnectionUseCase.invoke(Unit) } returns flowOf(networkConnection)
 
-        val mainViewModel = MainViewModel(observeNavigationEventsUseCase, observeConnectionUseCase)
+        val mainViewModel = createViewModel()
 
         advanceUntilIdle()
 

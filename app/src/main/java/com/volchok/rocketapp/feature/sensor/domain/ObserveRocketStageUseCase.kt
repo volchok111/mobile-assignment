@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 class ObserveRocketStageUseCase(
     private val sensorController: SensorController
 ) : SynchronousUseCase<Unit, Flow<RocketStages>> {
-    override fun invoke(input: Unit): Flow<RocketStages> = sensorController.launchRocket()
+    override fun invoke(input: Unit): Flow<RocketStages> = sensorController.observeRocketLaunchStage()
 }

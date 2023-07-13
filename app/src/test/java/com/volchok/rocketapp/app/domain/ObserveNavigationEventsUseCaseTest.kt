@@ -14,7 +14,7 @@ internal class ObserveNavigationEventsUseCaseTest {
     private val mainNavigationController = mockk<MainNavigationController>()
 
     @Test
-    fun `check if navigate to the correct screen`() = runTest {
+    fun `should navigate to the correct screen`() = runTest {
         val navigationEvent = mockk<NavigationEvent>()
 
         every { mainNavigationController.navigationEvent } returns flowOf(navigationEvent)

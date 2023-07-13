@@ -14,7 +14,7 @@ internal class ObserveConnectionUseCaseTest {
     private val networkController = mockk<NetworkController>()
 
     @Test
-    fun `observing internet connection `() = runTest {
+    fun `should observe internet connection`() = runTest {
 
         val networkConnection = mockk<NetworkConnection>()
 

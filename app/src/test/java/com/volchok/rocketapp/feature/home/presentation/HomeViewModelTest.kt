@@ -20,6 +20,17 @@ internal class HomeViewModelTest {
     private val observeRocketsUseCase = mockk<ObserveRocketsUseCase>()
     private val openRocketInfoUseCase = mockk<OpenRocketInfoUseCase>()
 
+    private val testRocketModel =
+        RocketItem(first_flight = "1.1.1111", rocket_name = "Falcon", rocket_id = rocketId)
+
+    private val testViewModelRocketItem = HomeViewModel.State.RocketItem(
+        first_flight = "1.1.1111",
+        rocket_name = "Falcon",
+        rocket_id = rocketId
+    )
+
+    private fun createViewModel() = HomeViewModel(observeRocketsUseCase, openRocketInfoUseCase)
+
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setUp() {
@@ -28,13 +39,13 @@ internal class HomeViewModelTest {
     }
 
     @Test
-    fun `if clicked on correct item`() = runTest {
+    fun `should check if clicked on correct item`() = runTest {
 
         coEvery { observeRocketsUseCase.invoke(Unit) } returns flowOf(Data.Success(emptyList()))
 
         every { openRocketInfoUseCase.invoke(any()) } just runs
 
-        val homeViewModel = HomeViewModel(observeRocketsUseCase, openRocketInfoUseCase)
+        val homeViewModel = createViewModel()
 
         homeViewModel.onItem(rocketId)
 
@@ -46,26 +57,31 @@ internal class HomeViewModelTest {
     @Test
     fun `should return rockets`() = runTest {
 
-        val testRocketModel =
-            RocketItem(first_flight = "1.1.1111", rocket_name = "Falcon", rocket_id = rocketId)
-
-        val testViewModelRocketItem = HomeViewModel.State.RocketItem(
-            first_flight = "1.1.1111",
-            rocket_name = "Falcon",
-            rocket_id = rocketId
-        )
-
         coEvery { observeRocketsUseCase.invoke(Unit) } returns flowOf(
             Data.Success(listOf(testRocketModel))
         )
 
-        val homeViewModel = HomeViewModel(observeRocketsUseCase, openRocketInfoUseCase)
+        val homeViewModel = createViewModel()
 
         advanceUntilIdle()
 
         homeViewModel.states.value.rockets shouldBe listOf(testViewModelRocketItem)
 
         homeViewModel.states.value.loading shouldBe false
+    }
+
+    @Test
+    fun `should return empty rocket list if error and display default loading state `() {
+
+        coEvery { observeRocketsUseCase.invoke(Unit) } returns flowOf(
+            Data.Error(Throwable())
+        )
+
+        val homeViewModel = createViewModel()
+
+        homeViewModel.states.value.rockets shouldBe emptyList()
+
+        homeViewModel.states.value.loading shouldBe true
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

@@ -7,7 +7,7 @@ internal class OpenRocketLaunchUseCaseTest {
     private val rocketNavigationController = mockk<RocketNavigationController>()
 
     @Test
-    fun `verify if opens rocket launch screen` () {
+    fun `should open rocket launch screen`() {
 
         every { rocketNavigationController.goToLaunch() } just runs
 

@@ -19,7 +19,7 @@ internal class ObserveRocketStageUseCaseTest {
 
         val rocketStages = mockk<RocketStages>()
 
-        coEvery { sensorController.launchRocket() } returns flowOf(rocketStages)
+        coEvery { sensorController.observeRocketLaunchStage() } returns flowOf(rocketStages)
 
         val observeRocketStagesUseCase = ObserveRocketStageUseCase(sensorController)
 

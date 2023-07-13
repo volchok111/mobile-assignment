@@ -25,6 +25,12 @@ internal class DetailsViewModelTest {
 
     private val testRocketDetailsModel = mockk<RocketDetailsModel>()
 
+    private fun createViewModel() = DetailsViewModel(
+        fetchRocketInfoUseCase,
+        observeRocketDetailsUseCase,
+        openRocketLaunchUseCase
+    )
+
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
@@ -34,7 +40,7 @@ internal class DetailsViewModelTest {
     }
 
     @Test
-    fun `if opens rocket launch screen`() = runTest {
+    fun `should open rocket launch screen`() = runTest {
 
         coEvery { fetchRocketInfoUseCase.invoke() } returns Data.Success(testRocketDetailsModel)
 
@@ -42,11 +48,7 @@ internal class DetailsViewModelTest {
 
         every { openRocketLaunchUseCase.invoke(Unit) } just runs
 
-        val detailsViewModel = DetailsViewModel(
-            fetchRocketInfoUseCase,
-            observeRocketDetailsUseCase,
-            openRocketLaunchUseCase
-        )
+        val detailsViewModel = createViewModel()
 
         detailsViewModel.onOpenRocketLaunch()
 
@@ -56,17 +58,13 @@ internal class DetailsViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `check loading state and rocket's details model state`() = runTest {
+    fun `should check loading state and rocket's details state`() = runTest {
 
         coEvery { fetchRocketInfoUseCase.invoke() } returns Data.Success(testRocketDetailsModel)
 
         coEvery { observeRocketDetailsUseCase.invoke() } returns flowOf(testRocketDetailsModel)
 
-        val detailsViewModel = DetailsViewModel(
-            fetchRocketInfoUseCase,
-            observeRocketDetailsUseCase,
-            openRocketLaunchUseCase
-        )
+        val detailsViewModel = createViewModel()
 
         advanceUntilIdle()
 
