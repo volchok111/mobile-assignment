@@ -1,0 +1,67 @@
+package com.volchok.rocketapp.app.presentation
+
+import com.volchok.rocketapp.app.domain.ObserveNavigationEventsUseCase
+import com.volchok.rocketapp.app.model.NavigationEvent
+import com.volchok.rocketapp.library.networking.domain.ObserveConnectionUseCase
+import com.volchok.rocketapp.library.networking.model.NetworkConnection
+import io.kotest.matchers.shouldBe
+import io.mockk.every
+import io.mockk.mockk
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.*
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
+
+internal class MainViewModelTest {
+
+    private val observeNavigationEventsUseCase = mockk<ObserveNavigationEventsUseCase>()
+    private val observeConnectionUseCase = mockk<ObserveConnectionUseCase>()
+    private val networkConnection = mockk<NetworkConnection>()
+    private val navigationEvent = mockk<NavigationEvent>()
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Before
+    fun setUp() {
+        val dispatcher = UnconfinedTestDispatcher()
+        Dispatchers.setMain(dispatcher)
+    }
+
+    @Test
+    fun `control navigation between screens`() {
+
+        every { observeNavigationEventsUseCase.invoke(Unit) } returns flowOf(navigationEvent)
+
+        every { observeConnectionUseCase.invoke(Unit) } returns flowOf(networkConnection)
+
+        val mainViewModel = MainViewModel(observeNavigationEventsUseCase, observeConnectionUseCase)
+
+        mainViewModel.onNavigationEventConsumed()
+
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `checking network connection default state `() = runTest {
+
+        every { observeNavigationEventsUseCase.invoke(Unit) } returns flowOf(navigationEvent)
+
+        every { observeConnectionUseCase.invoke(Unit) } returns flowOf(networkConnection)
+
+        val mainViewModel = MainViewModel(observeNavigationEventsUseCase, observeConnectionUseCase)
+
+        advanceUntilIdle()
+
+        mainViewModel.states.value.isOffline shouldBe false
+
+        mainViewModel.states.value.navigationEvent shouldBe navigationEvent
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
+    }
+}
