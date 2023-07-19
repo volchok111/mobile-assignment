@@ -8,11 +8,9 @@ internal class OpenRocketLaunchUseCaseTest {
 
     @Test
     fun `should open rocket launch screen`() {
-
         every { rocketNavigationController.goToLaunch() } just runs
 
         val openRocketLaunchUseCase = OpenRocketLaunchUseCase(rocketNavigationController)
-
         openRocketLaunchUseCase.invoke(Unit)
 
         verify { rocketNavigationController.goToLaunch() }

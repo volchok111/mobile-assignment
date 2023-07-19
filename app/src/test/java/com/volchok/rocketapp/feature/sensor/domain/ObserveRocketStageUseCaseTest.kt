@@ -11,18 +11,14 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 internal class ObserveRocketStageUseCaseTest {
-
     private val sensorController = mockk<SensorController>()
+    private val rocketStages = mockk<RocketStages>()
 
     @Test
     fun `should return rocket stage`() = runTest {
-
-        val rocketStages = mockk<RocketStages>()
-
         coEvery { sensorController.observeRocketLaunchStage() } returns flowOf(rocketStages)
 
         val observeRocketStagesUseCase = ObserveRocketStageUseCase(sensorController)
-
         val result = observeRocketStagesUseCase.invoke()
 
         result.first() shouldBe rocketStages

@@ -12,16 +12,14 @@ import org.junit.Test
 internal class ObserveNavigationEventsUseCaseTest {
 
     private val mainNavigationController = mockk<MainNavigationController>()
+    private val navigationEvent = mockk<NavigationEvent>()
 
     @Test
     fun `should navigate to the correct screen`() = runTest {
-        val navigationEvent = mockk<NavigationEvent>()
-
         every { mainNavigationController.navigationEvent } returns flowOf(navigationEvent)
 
         val observeNavigationEventsUseCase =
             ObserveNavigationEventsUseCase(mainNavigationController)
-
         val result = observeNavigationEventsUseCase.invoke(Unit)
 
         result.first() shouldBe navigationEvent

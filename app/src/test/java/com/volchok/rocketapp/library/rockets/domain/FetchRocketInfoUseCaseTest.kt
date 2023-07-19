@@ -12,7 +12,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 internal class FetchRocketInfoUseCaseTest {
-
     private val rocketRepository = mockk<RemoteRepository>()
     private val localRocketRepository = mockk<LocalRocketRepository>()
     private val getSelectedRocketIdUseCase = mockk<GetSelectedRocketIdUseCase>()
@@ -20,27 +19,33 @@ internal class FetchRocketInfoUseCaseTest {
     @Test
     fun `should fetch rocket info`() = runTest {
         val testId = "falcon_heavy"
-
         val testRocketDetailsData = RocketDetailsModel(
             description = "aaa",
             diameter = Diameter(2, 2.0),
-            first_stage = FirstStage(burn_time_sec = 3, engines = 2, fuel_amount_tons = 4, reusable = true),
+            first_stage = FirstStage(
+                burn_time_sec = 3,
+                engines = 2,
+                fuel_amount_tons = 4,
+                reusable = true
+            ),
             height = Height(2.0, 2),
             id = 1,
             mass = Mass(2, 3),
             rocket_id = testId,
             rocket_name = "Falcon",
             rocket_type = "rocket",
-            second_stage = SecondStage(burn_time_sec = 4, engines = 1, fuel_amount_tons = 6, reusable = false),
+            second_stage = SecondStage(
+                burn_time_sec = 4,
+                engines = 1,
+                fuel_amount_tons = 6,
+                reusable = false
+            ),
             flickr_images = emptyList()
         )
 
         coEvery { getSelectedRocketIdUseCase(Unit) } returns testId
-
         coEvery { localRocketRepository.rocket } returns flowOf(testRocketDetailsData)
-
         coEvery { localRocketRepository.set(any()) } just runs
-
         coEvery { rocketRepository.getRocketInfo(any()) } returns Data.Success(
             testRocketDetailsData
         )
@@ -52,7 +57,6 @@ internal class FetchRocketInfoUseCaseTest {
         )
 
         val result = fetchRocketInfoUseCase.invoke()
-
         result.shouldBeInstanceOf<Data.Success<RocketDetailsModel>>()
         result.value shouldBe testRocketDetailsData
 
