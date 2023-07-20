@@ -1,7 +1,9 @@
 package com.volchok.rocketapp.app.presentation
 
 import com.volchok.rocketapp.app.domain.ObserveNavigationEventsUseCase
+import com.volchok.rocketapp.app.model.ForwardNavigationEvent
 import com.volchok.rocketapp.app.model.NavigationEvent
+import com.volchok.rocketapp.app.model.Route
 import com.volchok.rocketapp.library.networking.domain.ObserveConnectionUseCase
 import com.volchok.rocketapp.library.networking.model.NetworkConnection
 import com.volchok.rocketapp.library.use_case.domain.invoke
@@ -40,9 +42,10 @@ internal class MainViewModelTest {
         every { observeNavigationEventsUseCase.invoke(Unit) } returns flowOf(navigationEvent)
         every { observeConnectionUseCase.invoke(Unit) } returns flowOf(networkConnection)
 
-        advanceUntilIdle()
         val mainViewModel = createViewModel()
+        advanceUntilIdle()
         mainViewModel.onNavigationEventConsumed()
+
         mainViewModel.states.value.navigationEvent shouldBe null
 
         verify { observeNavigationEventsUseCase.invoke() }
@@ -61,13 +64,24 @@ internal class MainViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `should have initial route as a default navigation event`() = runTest {
+    fun `should observe navigation events and update event`() = runTest {
         every { observeNavigationEventsUseCase.invoke(Unit) } returns flowOf(navigationEvent)
         every { observeConnectionUseCase.invoke(Unit) } returns emptyFlow()
 
         val mainViewModel = createViewModel()
         advanceUntilIdle()
         mainViewModel.states.value.navigationEvent shouldBe navigationEvent
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `should have initial route as a default navigation event`() = runTest {
+        every { observeNavigationEventsUseCase.invoke(Unit) } returns emptyFlow()
+        every { observeConnectionUseCase.invoke(Unit) } returns emptyFlow()
+
+        val mainViewModel = createViewModel()
+        advanceUntilIdle()
+        mainViewModel.states.value.navigationEvent shouldBe ForwardNavigationEvent(Route.Initial)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

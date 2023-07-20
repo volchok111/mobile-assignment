@@ -39,8 +39,8 @@ internal class DetailsViewModelTest {
 
     @Test
     fun `should open rocket launch screen`() = runTest {
-        coEvery { fetchRocketInfoUseCase.invoke() } returns Data.Success(testRocketDetailsModel)
-        coEvery { observeRocketDetailsUseCase.invoke() } returns flowOf(testRocketDetailsModel)
+        coEvery { fetchRocketInfoUseCase() } returns Data.Success(testRocketDetailsModel)
+        coEvery { observeRocketDetailsUseCase() } returns flowOf(testRocketDetailsModel)
         every { openRocketLaunchUseCase.invoke(Unit) } just runs
 
         val detailsViewModel = createViewModel()
@@ -57,14 +57,14 @@ internal class DetailsViewModelTest {
 
         val detailsViewModel = createViewModel()
         advanceUntilIdle()
+
         detailsViewModel.states.value.rocket shouldBe testRocketDetailsModel
         detailsViewModel.states.value.loading shouldBe false
-
         coVerify { fetchRocketInfoUseCase.invoke() }
     }
 
     @Test
-    fun `should have loading true and rocket null as a default state` () {
+    fun `should have loading true and rocket null as a default state`() {
         coEvery { observeRocketDetailsUseCase.invoke() } returns emptyFlow()
 
         val detailsViewModel = createViewModel()

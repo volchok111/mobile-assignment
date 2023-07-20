@@ -1,16 +1,12 @@
 package com.volchok.rocketapp.library.rockets.data
 
 import com.volchok.rocketapp.library.api.model.details.*
-import com.volchok.rocketapp.library.rockets.domain.LocalRocketRepository
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.runs
-import kotlinx.coroutines.flow.flowOf
+import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 internal class MemoryRocketDetailsRepositoryTest {
-    private val localRocketRepository = mockk<LocalRocketRepository>()
     private val rocketId = "falcon_heavy"
     private val testRocketDetailsData = RocketDetailsModel(
         description = "aaa",
@@ -37,11 +33,10 @@ internal class MemoryRocketDetailsRepositoryTest {
     )
 
     @Test
-    fun `should set rocket details model`() {
-        every { localRocketRepository.set(any()) } just runs
-        every { localRocketRepository.rocket } returns flowOf(testRocketDetailsData)
-
+    fun `should set rocket details model`() = runTest {
         val repository = MemoryRocketDetailsRepository()
         repository.set(testRocketDetailsData)
+
+        repository.rocket.first() shouldBe testRocketDetailsData
     }
 }

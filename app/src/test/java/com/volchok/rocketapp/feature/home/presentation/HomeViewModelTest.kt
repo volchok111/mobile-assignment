@@ -76,6 +76,7 @@ internal class HomeViewModelTest {
 
         val homeViewModel = createViewModel()
         homeViewModel.states.value.rockets shouldBe emptyList()
+        homeViewModel.states.value.loading shouldBe true
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
