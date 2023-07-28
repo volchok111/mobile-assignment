@@ -26,5 +26,4 @@ class RocketRepository(
             Data.Error(cause = ex)
         }
     }
-
 }

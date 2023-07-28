@@ -1,5 +1,5 @@
 package com.volchok.rocketapp.library.rockets.domain
 
-interface RocketRepository {
+interface RocketIdRepository {
     var selectedRocketId: String
 }

@@ -7,20 +7,16 @@ import io.mockk.mockk
 import org.junit.Test
 
 internal class GetSelectedRocketIdUseCaseTest {
-
-    private val repository = mockk<RocketRepository>()
+    private val repository = mockk<RocketIdRepository>()
 
     @Test
     fun `should return the same rocket id`() {
-
         val rocketId = "falcon_heavy"
-
         every { repository.selectedRocketId } returns rocketId
 
         val getSelectedRocketIdUseCase = GetSelectedRocketIdUseCase(repository)
 
         val result = getSelectedRocketIdUseCase.invoke()
-
         result shouldBe rocketId
     }
 }

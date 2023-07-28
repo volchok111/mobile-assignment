@@ -10,19 +10,16 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 internal class ObserveRocketDetailsUseCaseTest {
-
     private val localRocketRepository = mockk<LocalRocketRepository>()
+    private val testRocketDetailsModel = mockk<RocketDetailsModel>()
 
     @Test
     fun `should return rockets details`() = runTest {
-        val testRocketDetailsModel = mockk<RocketDetailsModel>()
-
         every { localRocketRepository.rocket } returns flowOf(testRocketDetailsModel)
 
         val observeRocketDetailsUseCase = ObserveRocketDetailsUseCase(localRocketRepository)
 
         val result = observeRocketDetailsUseCase.invoke(Unit)
-
         result.first() shouldBe testRocketDetailsModel
     }
 }

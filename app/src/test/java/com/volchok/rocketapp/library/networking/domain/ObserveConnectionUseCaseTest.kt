@@ -10,20 +10,16 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 internal class ObserveConnectionUseCaseTest {
-
     private val networkController = mockk<NetworkController>()
+    private val networkConnection = mockk<NetworkConnection>()
 
     @Test
     fun `should observe internet connection`() = runTest {
-
-        val networkConnection = mockk<NetworkConnection>()
-
         every { networkController.observeNetworkChange() } returns flowOf(networkConnection)
 
         val observeConnectionUseCase = ObserveConnectionUseCase(networkController)
 
         val result = observeConnectionUseCase.invoke(Unit)
-
         result.first() shouldBe networkConnection
     }
 }
