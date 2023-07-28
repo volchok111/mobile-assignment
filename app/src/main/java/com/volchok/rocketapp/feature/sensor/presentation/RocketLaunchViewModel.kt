@@ -1,6 +1,5 @@
 package com.volchok.rocketapp.feature.sensor.presentation
 
-import android.graphics.Bitmap
 import androidx.lifecycle.viewModelScope
 import com.volchok.rocketapp.feature.sensor.domain.ObserveRocketStageUseCase
 import com.volchok.rocketapp.feature.sensor.model.RocketStages
@@ -22,8 +21,6 @@ class RocketLaunchViewModel(
     }
 
     data class State(
-        val test: String = "",
-        val rocket: Bitmap? = null,
         val isStageFlying: Boolean = false,
     ) : AbstractViewModel.State
 }

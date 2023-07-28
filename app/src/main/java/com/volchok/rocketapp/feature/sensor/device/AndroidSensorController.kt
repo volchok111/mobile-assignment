@@ -13,5 +13,5 @@ class AndroidSensorController : SensorController {
         launchResult.tryEmit(result)
     }
 
-    override fun launchRocket(): Flow<RocketStages> = launchResult
+    override fun observeRocketLaunchStage(): Flow<RocketStages> = launchResult
 }

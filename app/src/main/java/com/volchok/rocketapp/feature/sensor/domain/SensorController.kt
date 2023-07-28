@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface SensorController {
 
-    fun launchRocket(): Flow<RocketStages>
+    fun observeRocketLaunchStage(): Flow<RocketStages>
 }
