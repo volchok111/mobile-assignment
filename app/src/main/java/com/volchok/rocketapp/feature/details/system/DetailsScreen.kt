@@ -33,14 +33,16 @@ fun DetailsScreen() {
 
     DetailsScreenImpl(
         state = state.value,
-        viewModel::onOpenRocketLaunch
+        viewModel::onOpenRocketLaunch,
+        viewModel::setData
     )
 }
 
 @Composable
 private fun DetailsScreenImpl(
     state: DetailsViewModel.State,
-    onOpenRocketLaunch: () -> Unit = {}
+    onOpenRocketLaunch: () -> Unit = {},
+    onAddToFavorite: () -> Unit = {}
 ) {
 
 
@@ -50,6 +52,9 @@ private fun DetailsScreenImpl(
             .padding(sizeS)
             .verticalScroll(rememberScrollState())
     ) {
+
+        Spacer(modifier = Modifier.height(sizeL))
+        RocketPrimaryButton(text = "Favorites", onClick = { onAddToFavorite() })
 
         Spacer(modifier = Modifier.height(sizeL))
         RocketPrimaryButton(

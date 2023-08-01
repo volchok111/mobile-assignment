@@ -1,10 +1,10 @@
 package com.volchok.rocketapp.library.preferences.data
 
-import com.volchok.rocketapp.library.api.model.home.RocketItem
+import com.volchok.rocketapp.feature.favorites.model.FavoritesModel
 import kotlinx.coroutines.flow.Flow
 
 interface DataStoreResource {
-    fun observeRockets(favoriteRocket: List<RocketItem>): Flow<List<RocketItem>>
+    fun observeRockets(favoriteRocket: List<FavoritesModel>): Flow<List<FavoritesModel>>
 
-    suspend fun setRockets(favoriteRocket: List<RocketItem>)
+    suspend fun setRockets(favoriteRocket: List<FavoritesModel>)
 }

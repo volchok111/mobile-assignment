@@ -78,7 +78,11 @@ private fun HomeScreenImpl(
                         if (item != null) {
                             RocketListItem(
                                 item = item,
-                                modifier = Modifier.clickable { item.rocket_id?.let { onItem(it) } }
+                                onClick = {
+                                    if (it != null) {
+                                        onItem(it)
+                                    }
+                                }
                             )
                         }
                         Spacer(modifier = Modifier.height(sizeXS))
@@ -96,11 +100,12 @@ private fun HomeScreenImpl(
 @Composable
 private fun RocketListItem(
     item: HomeViewModel.State.RocketItem,
-    modifier: Modifier = Modifier
+    onClick: (String?) -> Unit
 ) {
     Row(
-        modifier = modifier
-            .fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .clickable { onClick(item.rocket_id) },
         verticalAlignment = Alignment.CenterVertically
     ) {
         RocketIcon(

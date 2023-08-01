@@ -2,6 +2,7 @@ package com.volchok.rocketapp.feature.home.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.volchok.rocketapp.feature.favorites.domain.FavoriteRocketRepository
+import com.volchok.rocketapp.feature.favorites.model.FavoritesModel
 import com.volchok.rocketapp.feature.home.domain.OpenRocketInfoUseCase
 import com.volchok.rocketapp.library.api.domain.ObserveRocketsUseCase
 import com.volchok.rocketapp.library.api.model.home.RocketItem
@@ -24,13 +25,11 @@ class HomeViewModel(
                 }
             }
         }
-    }
 
-//    fun loadData() {
 //        viewModelScope.launch {
-//            favoriteRocketRepository.getFavoriteRockets(state.rockets)
+//            favoriteRocketRepository.getFavoriteRockets()
 //        }
-//    }
+    }
 
     fun onItem(id: String) {
         openRocketInfoUseCase(id)
@@ -44,7 +43,8 @@ class HomeViewModel(
 
     data class State(
         val loading: Boolean = true,
-        val rockets: List<RocketItem?> = emptyList()
+        val rockets: List<RocketItem?> = emptyList(),
+        val favorites: List<FavoritesModel> = emptyList()
     ) : AbstractViewModel.State {
         data class RocketItem(
             val first_flight: String? = null,

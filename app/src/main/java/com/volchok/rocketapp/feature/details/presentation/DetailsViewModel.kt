@@ -2,6 +2,8 @@ package com.volchok.rocketapp.feature.details.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.volchok.rocketapp.feature.details.domain.OpenRocketLaunchUseCase
+import com.volchok.rocketapp.feature.favorites.domain.FavoriteRocketRepository
+import com.volchok.rocketapp.feature.favorites.model.FavoritesModel
 import com.volchok.rocketapp.library.api.model.details.RocketDetailsModel
 import com.volchok.rocketapp.library.mvvm.presentation.AbstractViewModel
 import com.volchok.rocketapp.library.rockets.domain.FetchRocketInfoUseCase
@@ -12,7 +14,8 @@ import kotlinx.coroutines.launch
 class DetailsViewModel(
     private val fetchRocketInfoUseCase: FetchRocketInfoUseCase,
     private val observeRocketDetailsUseCase: ObserveRocketDetailsUseCase,
-    private val openRocketLaunchUseCase: OpenRocketLaunchUseCase
+    private val openRocketLaunchUseCase: OpenRocketLaunchUseCase,
+    private val favoriteRocketRepository: FavoriteRocketRepository
 ) : AbstractViewModel<DetailsViewModel.State>(State()) {
 
     init {
@@ -27,12 +30,25 @@ class DetailsViewModel(
         }
     }
 
+//    fun loadData() {
+//        viewModelScope.launch {
+//            favoriteRocketRepository.getFavoriteRockets(state.favorites)
+//        }
+//    }
+
+    fun setData() {
+        viewModelScope.launch {
+            favoriteRocketRepository.setFavoriteRockets(state.favorites)
+        }
+    }
+
     fun onOpenRocketLaunch() {
         openRocketLaunchUseCase()
     }
 
     data class State(
         val loading: Boolean = true,
-        val rocket: RocketDetailsModel? = null
+        val rocket: RocketDetailsModel? = null,
+        val favorites: List<FavoritesModel> = emptyList()
     ) : AbstractViewModel.State
 }
