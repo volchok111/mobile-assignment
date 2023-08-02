@@ -1,6 +1,7 @@
 package com.volchok.rocketapp.feature.details.system
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.volchok.rocketapp.feature.details.presentation.DetailsViewModel
+import com.volchok.rocketapp.feature.favorites.model.FavoritesModel
 import com.volchok.rocketapp.library.ui.*
 import com.volchok.rocketapp.library.ui.RocketColors.pink
 import com.volchok.rocketapp.library.ui.RocketDimensions.sizeL
@@ -34,7 +36,7 @@ fun DetailsScreen() {
     DetailsScreenImpl(
         state = state.value,
         viewModel::onOpenRocketLaunch,
-        viewModel::setData
+        viewModel::onLikeClicked
     )
 }
 
@@ -42,9 +44,8 @@ fun DetailsScreen() {
 private fun DetailsScreenImpl(
     state: DetailsViewModel.State,
     onOpenRocketLaunch: () -> Unit = {},
-    onAddToFavorite: () -> Unit = {}
+    onLikeClicked: (FavoritesModel, Boolean) -> Unit,
 ) {
-
 
     Column(
         modifier = Modifier
@@ -54,7 +55,14 @@ private fun DetailsScreenImpl(
     ) {
 
         Spacer(modifier = Modifier.height(sizeL))
-        RocketPrimaryButton(text = "Favorites", onClick = { onAddToFavorite() })
+        RocketIcon(
+            icon = if (state.isLiked) com.volchok.rocketapp.R.drawable.favorite_filled else com.volchok.rocketapp.R.drawable.favorite_blank,
+            contentDescription = "favorites",
+            tint = RocketColors.red500,
+            modifier = Modifier
+                .size(40.dp)
+                .clickable { onLikeClicked(FavoritesModel(), state.isLiked) }
+        )
 
         Spacer(modifier = Modifier.height(sizeL))
         RocketPrimaryButton(

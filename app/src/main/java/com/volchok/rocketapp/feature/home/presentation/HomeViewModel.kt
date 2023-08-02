@@ -1,7 +1,7 @@
 package com.volchok.rocketapp.feature.home.presentation
 
 import androidx.lifecycle.viewModelScope
-import com.volchok.rocketapp.feature.favorites.domain.FavoriteRocketRepository
+import com.volchok.rocketapp.feature.details.domain.GetFavoriteRocketsUseCase
 import com.volchok.rocketapp.feature.favorites.model.FavoritesModel
 import com.volchok.rocketapp.feature.home.domain.OpenRocketInfoUseCase
 import com.volchok.rocketapp.library.api.domain.ObserveRocketsUseCase
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 class HomeViewModel(
     private val observeRocketsUseCase: ObserveRocketsUseCase,
     private val openRocketInfoUseCase: OpenRocketInfoUseCase,
-    private val favoriteRocketRepository: FavoriteRocketRepository
+    private val getFavoriteRocketsUseCase: GetFavoriteRocketsUseCase
 ) : AbstractViewModel<HomeViewModel.State>(State()) {
 
     init {
@@ -25,10 +25,14 @@ class HomeViewModel(
                 }
             }
         }
+    }
 
-//        viewModelScope.launch {
-//            favoriteRocketRepository.getFavoriteRockets()
-//        }
+    fun loadData() {
+        viewModelScope.launch {
+            getFavoriteRocketsUseCase().collect {
+                state = state.copy(favorites = it)
+            }
+        }
     }
 
     fun onItem(id: String) {

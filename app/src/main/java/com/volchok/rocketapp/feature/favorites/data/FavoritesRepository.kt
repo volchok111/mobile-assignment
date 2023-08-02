@@ -8,11 +8,15 @@ import kotlinx.coroutines.flow.Flow
 class FavoritesRepository(
     private val dataStoreResource: DataStoreResource
 ) : FavoriteRocketRepository {
-    override fun getFavoriteRockets(rockets: List<FavoritesModel>): Flow<List<FavoritesModel>> {
-        return dataStoreResource.observeRockets(rockets)
+    override fun getFavoriteRockets(): Flow<List<FavoritesModel>> {
+        return dataStoreResource.observeItems()
     }
 
     override suspend fun setFavoriteRockets(rockets: List<FavoritesModel>) {
-        dataStoreResource.setRockets(rockets)
+        return dataStoreResource.saveItems(rockets)
+    }
+
+    override suspend fun deleteFavoriteRocket() {
+        return dataStoreResource.deleteItems()
     }
 }

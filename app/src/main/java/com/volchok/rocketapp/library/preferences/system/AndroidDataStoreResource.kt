@@ -15,11 +15,12 @@ class AndroidDataStoreResource(
     private val context: Context
 ) : DataStoreResource {
 
-    override fun observeRockets(favoriteRocket: List<FavoritesModel>): Flow<List<FavoritesModel>> {
+    override fun observeItems(): Flow<List<FavoritesModel>> {
         return context.dataStore.data.map { preferences ->
             val rockets = mutableListOf<FavoritesModel>()
+            val favorites = listOf<FavoritesModel>()
 
-            favoriteRocket.forEach { item ->
+            favorites.forEach { item ->
                 if (item.rocket_id != null) {
                     if (preferences[booleanPreferencesKey(item.rocket_id)] == true) {
                         rockets.add(item)
@@ -30,12 +31,26 @@ class AndroidDataStoreResource(
         }
     }
 
-    override suspend fun setRockets(favoriteRocket: List<FavoritesModel>) {
+    override suspend fun saveItems(favoriteRocket: List<FavoritesModel>) {
         context.dataStore.edit { preferences ->
-            favoriteRocket.forEach { item ->
+            val favorites = listOf<FavoritesModel>()
+            favorites.forEach { item ->
                 if (item.rocket_id != null) {
                     preferences[booleanPreferencesKey(item.rocket_id)] =
                         favoriteRocket.contains(item)
+                }
+            }
+        }
+    }
+
+    override suspend fun deleteItems() {
+        context.dataStore.edit { preferences ->
+            val favorites = listOf<FavoritesModel>()
+            favorites.forEach { item ->
+                if (item.rocket_id != null) {
+                    // TODO
+//                if (preferences.contains(booleanPreferencesKey(item.rocket_id)))
+                    preferences.remove(booleanPreferencesKey(item.rocket_id))
                 }
             }
         }
