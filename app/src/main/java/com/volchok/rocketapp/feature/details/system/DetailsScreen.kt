@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.volchok.rocketapp.feature.details.presentation.DetailsViewModel
 import com.volchok.rocketapp.feature.favorites.model.FavoritesModel
+import com.volchok.rocketapp.library.api.model.home.RocketItem
 import com.volchok.rocketapp.library.ui.*
 import com.volchok.rocketapp.library.ui.RocketColors.pink
 import com.volchok.rocketapp.library.ui.RocketDimensions.sizeL
@@ -36,7 +37,8 @@ fun DetailsScreen() {
     DetailsScreenImpl(
         state = state.value,
         viewModel::onOpenRocketLaunch,
-        viewModel::onLikeClicked
+        viewModel::onSaveFavorite,
+        //viewModel::onLikeClicked,
     )
 }
 
@@ -44,7 +46,8 @@ fun DetailsScreen() {
 private fun DetailsScreenImpl(
     state: DetailsViewModel.State,
     onOpenRocketLaunch: () -> Unit = {},
-    onLikeClicked: (FavoritesModel, Boolean) -> Unit,
+    onSaveFavorite: () -> Unit = {},
+   // onLikeClicked: (RocketItem, Boolean) -> Unit,
 ) {
 
     Column(
@@ -61,7 +64,10 @@ private fun DetailsScreenImpl(
             tint = RocketColors.red500,
             modifier = Modifier
                 .size(40.dp)
-                .clickable { onLikeClicked(FavoritesModel(), state.isLiked) }
+                .clickable {
+                    //onLikeClicked(state.favorites)
+                    onSaveFavorite()
+                }
         )
 
         Spacer(modifier = Modifier.height(sizeL))

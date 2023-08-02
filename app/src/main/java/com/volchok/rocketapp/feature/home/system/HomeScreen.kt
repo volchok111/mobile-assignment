@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.volchok.rocketapp.R
 import com.volchok.rocketapp.feature.favorites.model.FavoritesModel
 import com.volchok.rocketapp.feature.home.presentation.HomeViewModel
+import com.volchok.rocketapp.library.api.model.home.RocketItem
 import com.volchok.rocketapp.library.ui.*
 import com.volchok.rocketapp.library.ui.RocketColors.chrome900
 import com.volchok.rocketapp.library.ui.RocketDimensions.sizeS
@@ -194,7 +195,7 @@ private fun RocketListItem(
 
 @Composable
 private fun FavoriteListItem(
-    item: FavoritesModel,
+    item: RocketItem,
     onClick: (String?) -> Unit
 ) {
     Row(

@@ -48,7 +48,7 @@ class HomeViewModel(
     data class State(
         val loading: Boolean = true,
         val rockets: List<RocketItem?> = emptyList(),
-        val favorites: List<FavoritesModel> = emptyList()
+        val favorites: List<com.volchok.rocketapp.library.api.model.home.RocketItem> = emptyList()
     ) : AbstractViewModel.State {
         data class RocketItem(
             val first_flight: String? = null,
