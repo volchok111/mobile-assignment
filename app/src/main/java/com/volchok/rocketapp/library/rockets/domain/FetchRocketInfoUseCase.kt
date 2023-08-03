@@ -1,5 +1,6 @@
 package com.volchok.rocketapp.library.rockets.domain
 
+import com.volchok.rocketapp.feature.favorites.domain.FavoriteRocketRepository
 import com.volchok.rocketapp.library.api.domain.RemoteRepository
 import com.volchok.rocketapp.library.api.model.details.RocketDetailsModel
 import com.volchok.rocketapp.library.data.model.Data
@@ -10,7 +11,8 @@ import com.volchok.rocketapp.library.use_case.domain.invoke
 class FetchRocketInfoUseCase(
     private val repository: RemoteRepository,
     private val localRocketRepository: LocalRocketRepository,
-    private val getSelectedRocketIdUseCase: GetSelectedRocketIdUseCase
+    private val getSelectedRocketIdUseCase: GetSelectedRocketIdUseCase,
+    private val favoriteRocketRepository: FavoriteRocketRepository
 ) : SuspendUseCase<Unit, Data<RocketDetailsModel>> {
     override suspend fun invoke(input: Unit): Data<RocketDetailsModel> = safeCall {
         rocketInfo()
@@ -29,7 +31,9 @@ class FetchRocketInfoUseCase(
             rocket_type = result.rocket_type,
             second_stage = result.second_stage,
             flickr_images = result.flickr_images,
-            id = result.id
+            id = result.id,
+            isFavorite = favoriteRocketRepository.getFavoriteRocketById(getSelectedRocketIdUseCase())?.isFavorite
+                ?: false
         )
         localRocketRepository.set(rocket)
         return rocket

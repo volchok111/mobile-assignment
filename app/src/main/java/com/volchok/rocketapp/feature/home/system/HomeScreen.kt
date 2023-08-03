@@ -18,9 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.volchok.rocketapp.R
-import com.volchok.rocketapp.feature.favorites.model.FavoritesModel
 import com.volchok.rocketapp.feature.home.presentation.HomeViewModel
-import com.volchok.rocketapp.library.api.model.home.RocketItem
 import com.volchok.rocketapp.library.ui.*
 import com.volchok.rocketapp.library.ui.RocketColors.chrome900
 import com.volchok.rocketapp.library.ui.RocketDimensions.sizeS
@@ -103,7 +101,7 @@ private fun HomeScreenImpl(
         ) {
             Spacer(modifier = Modifier.height(RocketDimensions.sizeL))
             RocketText(
-                text = "Favorites",
+                text = stringResource(id = R.string.home_screen_favorites_title),
                 style = MaterialTheme.typography.h4,
                 fontWeight = FontWeight.Bold,
                 color = chrome900
@@ -126,7 +124,7 @@ private fun HomeScreenImpl(
                             Divider(color = RocketColors.chrome100, thickness = 1.dp)
                         }
                         Spacer(modifier = Modifier.height(sizeXS))
-                        FavoriteListItem(
+                        RocketListItem(
                             item = item,
                             onClick = {
                                 if (it != null) {
@@ -149,53 +147,6 @@ private fun HomeScreenImpl(
 @Composable
 private fun RocketListItem(
     item: HomeViewModel.State.RocketItem,
-    onClick: (String?) -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxSize()
-            .clickable { onClick(item.rocket_id) },
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        RocketIcon(
-            icon = R.drawable.rocket,
-            contentDescription = null,
-            tint = RocketColors.pink,
-            modifier = Modifier
-                .size(RocketDimensions.sizeL)
-                .padding(end = sizeXS)
-                .align(Alignment.CenterVertically)
-        )
-
-        Column(modifier = Modifier.weight(1f)) {
-            item.rocket_name?.let {
-                RocketText(
-                    text = it,
-                    style = MaterialTheme.typography.h6,
-                    color = chrome900,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-            RocketText(
-                text = "${stringResource(id = R.string.home_screen_first_flight)} ${item.first_flight}",
-                style = MaterialTheme.typography.subtitle2,
-                color = RocketColors.chrome300
-            )
-        }
-        RocketIcon(
-            icon = R.drawable.icon_navigate_next,
-            contentDescription = null,
-            tint = RocketColors.chrome300,
-            modifier = Modifier
-                .size(RocketDimensions.sizeXL)
-                .align(Alignment.CenterVertically)
-        )
-    }
-}
-
-@Composable
-private fun FavoriteListItem(
-    item: RocketItem,
     onClick: (String?) -> Unit
 ) {
     Row(

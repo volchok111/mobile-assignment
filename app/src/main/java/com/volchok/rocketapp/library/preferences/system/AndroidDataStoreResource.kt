@@ -3,61 +3,72 @@ package com.volchok.rocketapp.library.preferences.system
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.volchok.rocketapp.feature.favorites.model.FavoritesModel
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.volchok.rocketapp.library.api.model.home.RocketItem
 import com.volchok.rocketapp.library.preferences.data.DataStoreResource
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.first
 
 class AndroidDataStoreResource(
     private val context: Context
 ) : DataStoreResource {
 
-    override fun observeItems(): Flow<List<RocketItem>> {
-        return context.dataStore.data.map { preferences ->
-            val rockets = mutableListOf<RocketItem>()
-            val favorites = listOf<RocketItem>()
+    override suspend fun saveItems(favoriteRocket: List<RocketItem>) {
+        val rocketDataStoreKey = stringPreferencesKey(KEY_FAVORITE_ROCKET)
 
-            favorites.forEach { item ->
-                if (item.rocket_id != null) {
-                    if (preferences[booleanPreferencesKey(item.rocket_id)] == true) {
-                        rockets.add(item)
-                    }
+        context.dataStore.edit { preferences ->
+            preferences[rocketDataStoreKey] = Gson().toJson(favoriteRocket)
+        }
+    }
+
+    override suspend fun getItems(): List<RocketItem>? {
+        val rocketDataStoreKey = stringPreferencesKey(KEY_FAVORITE_ROCKET)
+
+        val preferences = context.dataStore.data.first()
+
+        val listType = object : TypeToken<List<RocketItem>?>() {}.type
+        return Gson().fromJson(preferences[rocketDataStoreKey], listType)
+    }
+
+    override suspend fun getItemById(rocketId: String): RocketItem? {
+        val rocketsList = getItems()
+
+        if (!rocketsList.isNullOrEmpty()) {
+            rocketsList.forEach {
+                if (it.rocket_id == rocketId) {
+                    return it
                 }
             }
-            rockets
         }
+        return null
     }
 
-    override suspend fun saveItems(favoriteRocket: List<RocketItem>, rocketId: String) {
-        context.dataStore.edit { preferences ->
-            val favorites = listOf<RocketItem>()
-            favorites.forEach { item ->
-               // if (item.rocket_id != null) {
-                    preferences[booleanPreferencesKey(rocketId)] =
-                        favoriteRocket.contains(item)
-              //  }
+    override suspend fun updateFavoriteByItemId(rocketId: String) {
+        val rocketList = getItems()
+
+        if (!rocketList.isNullOrEmpty()) {
+            rocketList.forEach {
+                if (it.rocket_id == rocketId) {
+                    it.isFavorite = !it.isFavorite
+                    deleteItems()
+                    saveItems(rocketList)
+                }
             }
         }
     }
+
 
     override suspend fun deleteItems() {
         context.dataStore.edit { preferences ->
-            val favorites = listOf<FavoritesModel>()
-            favorites.forEach { item ->
-                if (item.rocket_id != null) {
-                    // TODO
-//                if (preferences.contains(booleanPreferencesKey(item.rocket_id)))
-                    preferences.remove(booleanPreferencesKey(item.rocket_id))
-                }
-            }
+            preferences.clear()
         }
     }
 
     companion object {
         private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "RocketAppDataStore")
+        private const val KEY_FAVORITE_ROCKET = "key.favorite.rocket"
     }
 }

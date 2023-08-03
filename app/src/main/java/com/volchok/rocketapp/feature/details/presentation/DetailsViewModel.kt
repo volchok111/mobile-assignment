@@ -2,11 +2,9 @@ package com.volchok.rocketapp.feature.details.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.volchok.rocketapp.feature.details.domain.OpenRocketLaunchUseCase
-import com.volchok.rocketapp.feature.details.domain.SaveToFavoriteUseCase
-import com.volchok.rocketapp.feature.favorites.model.FavoritesModel
-import com.volchok.rocketapp.feature.home.presentation.HomeViewModel
+import com.volchok.rocketapp.feature.details.domain.UpdateFavoritesUseCase
 import com.volchok.rocketapp.library.api.model.details.RocketDetailsModel
-import com.volchok.rocketapp.library.api.model.home.RocketItem
+import com.volchok.rocketapp.library.data.model.Data
 import com.volchok.rocketapp.library.mvvm.presentation.AbstractViewModel
 import com.volchok.rocketapp.library.rockets.domain.FetchRocketInfoUseCase
 import com.volchok.rocketapp.library.rockets.domain.ObserveRocketDetailsUseCase
@@ -17,13 +15,11 @@ class DetailsViewModel(
     private val fetchRocketInfoUseCase: FetchRocketInfoUseCase,
     private val observeRocketDetailsUseCase: ObserveRocketDetailsUseCase,
     private val openRocketLaunchUseCase: OpenRocketLaunchUseCase,
-    private val saveToFavoriteUseCase: SaveToFavoriteUseCase
+    private val updateFavoriteUseCase: UpdateFavoritesUseCase
 ) : AbstractViewModel<DetailsViewModel.State>(State()) {
 
     init {
-        viewModelScope.launch {
-            fetchRocketInfoUseCase()
-        }
+        loadDetails()
 
         viewModelScope.launch {
             observeRocketDetailsUseCase().collect {
@@ -32,20 +28,28 @@ class DetailsViewModel(
         }
     }
 
-     fun onSaveFavorite() {
+    fun onLikeClicked() {
         viewModelScope.launch {
-            state.rocket?.rocket_id?.let {rocketId -> SaveToFavoriteUseCase.Params(state.favorites, rocketId)
-            }?.let { saveToFavoriteUseCase(it) }
+            state.rocket?.rocket_id?.let {
+                updateFavoriteUseCase.invoke(input = UpdateFavoritesUseCase.Params(it))
+                loadDetails()
+            }
         }
     }
 
-//    fun onLikeClicked() {
-//        state = if (!state.isLiked) {
-//            state.copy(favorites = state.favorites + item)
-//        } else {
-//            state.copy(favorites = state.favorites - item)
-//        }
-//    }
+    private fun loadDetails() {
+        viewModelScope.launch {
+            val rocketResult = fetchRocketInfoUseCase()
+            if (rocketResult is Data.Success) {
+                state = state.copy(rocket = rocketResult.value, loading = false)
+            } else {
+                if (rocketResult is Data.Error) {
+                    throw IllegalStateException(rocketResult.cause.toString())
+                }
+                throw IllegalStateException("Unknown exception")
+            }
+        }
+    }
 
     fun onOpenRocketLaunch() {
         openRocketLaunchUseCase()
@@ -53,8 +57,6 @@ class DetailsViewModel(
 
     data class State(
         val loading: Boolean = true,
-        val rocket: RocketDetailsModel? = null,
-        val favorites: List<RocketItem> = emptyList(),
-        val isLiked: Boolean = false
+        val rocket: RocketDetailsModel? = null
     ) : AbstractViewModel.State
 }

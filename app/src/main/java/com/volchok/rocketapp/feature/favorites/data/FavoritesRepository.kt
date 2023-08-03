@@ -1,23 +1,26 @@
 package com.volchok.rocketapp.feature.favorites.data
 
 import com.volchok.rocketapp.feature.favorites.domain.FavoriteRocketRepository
-import com.volchok.rocketapp.feature.favorites.model.FavoritesModel
 import com.volchok.rocketapp.library.api.model.home.RocketItem
 import com.volchok.rocketapp.library.preferences.data.DataStoreResource
-import kotlinx.coroutines.flow.Flow
 
 class FavoritesRepository(
     private val dataStoreResource: DataStoreResource
 ) : FavoriteRocketRepository {
-    override fun getFavoriteRockets(): Flow<List<RocketItem>> {
-        return dataStoreResource.observeItems()
+
+    override suspend fun saveFavoriteRockets(rockets: List<RocketItem>) {
+        dataStoreResource.saveItems(rockets)
     }
 
-    override suspend fun setFavoriteRockets(rockets: List<RocketItem>, rocketId: String) {
-        return dataStoreResource.saveItems(rockets, rocketId)
+    override suspend fun getFavoriteRockets(): List<RocketItem>? {
+        return dataStoreResource.getItems()
     }
 
-    override suspend fun deleteFavoriteRocket() {
-        return dataStoreResource.deleteItems()
+    override suspend fun getFavoriteRocketById(rocketId: String): RocketItem? {
+        return dataStoreResource.getItemById(rocketId)
+    }
+
+    override suspend fun updateFavoriteByRocketId(rocketId: String) {
+        dataStoreResource.updateFavoriteByItemId(rocketId)
     }
 }

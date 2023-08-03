@@ -1,8 +1,6 @@
 package com.volchok.rocketapp.feature.home.presentation
 
 import androidx.lifecycle.viewModelScope
-import com.volchok.rocketapp.feature.details.domain.GetFavoriteRocketsUseCase
-import com.volchok.rocketapp.feature.favorites.model.FavoritesModel
 import com.volchok.rocketapp.feature.home.domain.OpenRocketInfoUseCase
 import com.volchok.rocketapp.library.api.domain.ObserveRocketsUseCase
 import com.volchok.rocketapp.library.api.model.home.RocketItem
@@ -14,23 +12,19 @@ import kotlinx.coroutines.launch
 class HomeViewModel(
     private val observeRocketsUseCase: ObserveRocketsUseCase,
     private val openRocketInfoUseCase: OpenRocketInfoUseCase,
-    private val getFavoriteRocketsUseCase: GetFavoriteRocketsUseCase
 ) : AbstractViewModel<HomeViewModel.State>(State()) {
-
-    init {
-        viewModelScope.launch {
-            observeRocketsUseCase().collect { list ->
-                if (list is Data.Success) {
-                    state = state.copy(rockets = list.value.map { it.toItem() }, loading = false)
-                }
-            }
-        }
-    }
 
     fun loadData() {
         viewModelScope.launch {
-            getFavoriteRocketsUseCase().collect {
-                state = state.copy(favorites = it)
+            observeRocketsUseCase().collect { list ->
+                if (list is Data.Success) {
+                    state = state.copy(
+                        rockets = list.value.map { it.toItem() },
+                        favorites = list.value.filter { item -> item.isFavorite }
+                            .map { it.toItem() },
+                        loading = false
+                    )
+                }
             }
         }
     }
@@ -48,7 +42,7 @@ class HomeViewModel(
     data class State(
         val loading: Boolean = true,
         val rockets: List<RocketItem?> = emptyList(),
-        val favorites: List<com.volchok.rocketapp.library.api.model.home.RocketItem> = emptyList()
+        val favorites: List<RocketItem> = emptyList()
     ) : AbstractViewModel.State {
         data class RocketItem(
             val first_flight: String? = null,
