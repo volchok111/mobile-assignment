@@ -1,6 +1,7 @@
 package com.volchok.rocketapp.feature.details.presentation
 
 import com.volchok.rocketapp.feature.details.domain.OpenRocketLaunchUseCase
+import com.volchok.rocketapp.feature.details.domain.UpdateFavoriteRocketByIdUseCase
 import com.volchok.rocketapp.library.api.model.details.RocketDetailsModel
 import com.volchok.rocketapp.library.data.model.Data
 import com.volchok.rocketapp.library.rockets.domain.FetchRocketInfoUseCase
@@ -23,11 +24,14 @@ internal class DetailsViewModelTest {
     private val observeRocketDetailsUseCase = mockk<ObserveRocketDetailsUseCase>()
     private val openRocketLaunchUseCase = mockk<OpenRocketLaunchUseCase>()
     private val testRocketDetailsModel = mockk<RocketDetailsModel>()
+    private val updateFavoriteRocketByIdUseCase = mockk<UpdateFavoriteRocketByIdUseCase>()
+    private val rocketId = "falcon_heavy"
 
     private fun createViewModel() = DetailsViewModel(
         fetchRocketInfoUseCase,
         observeRocketDetailsUseCase,
-        openRocketLaunchUseCase
+        openRocketLaunchUseCase,
+        updateFavoriteRocketByIdUseCase
     )
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -71,6 +75,18 @@ internal class DetailsViewModelTest {
         detailsViewModel.states.value.loading shouldBe true
         detailsViewModel.states.value.rocket shouldBe null
     }
+
+//    @Test
+//    fun `should update favorite rocket by id`() = runTest {
+//        coEvery { updateFavoriteRocketByIdUseCase.invoke(any()) } just runs
+//        coEvery { fetchRocketInfoUseCase.invoke() } returns Data.Success(testRocketDetailsModel)
+//        coEvery { observeRocketDetailsUseCase.invoke() } returns flowOf(testRocketDetailsModel)
+//
+//        val detailsViewModel = createViewModel()
+//        detailsViewModel.onLikeClicked()
+//
+//        coVerify { updateFavoriteRocketByIdUseCase.invoke(rocketId) }
+//    }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @After

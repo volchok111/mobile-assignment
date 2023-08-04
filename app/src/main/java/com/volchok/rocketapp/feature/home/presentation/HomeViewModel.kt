@@ -36,7 +36,8 @@ class HomeViewModel(
     private fun RocketItem.toItem() = State.RocketItem(
         first_flight,
         rocket_name,
-        rocket_id
+        rocket_id,
+        isFavorite
     )
 
     data class State(
@@ -48,6 +49,7 @@ class HomeViewModel(
             val first_flight: String? = null,
             val rocket_name: String? = null,
             val rocket_id: String? = null,
+            var isFavorite: Boolean? = null
         )
     }
 }

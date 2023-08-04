@@ -1,5 +1,6 @@
 package com.volchok.rocketapp.library.rockets.domain
 
+import com.volchok.rocketapp.feature.favorites.domain.FavoriteRocketRepository
 import com.volchok.rocketapp.library.api.domain.RemoteRepository
 import com.volchok.rocketapp.library.api.model.details.*
 import com.volchok.rocketapp.library.data.model.Data
@@ -15,6 +16,7 @@ internal class FetchRocketInfoUseCaseTest {
     private val rocketRepository = mockk<RemoteRepository>()
     private val localRocketRepository = mockk<LocalRocketRepository>()
     private val getSelectedRocketIdUseCase = mockk<GetSelectedRocketIdUseCase>()
+    private val favoriteRocketRepository = mockk<FavoriteRocketRepository>()
 
     @Test
     fun `should fetch rocket info`() = runTest {
@@ -28,7 +30,7 @@ internal class FetchRocketInfoUseCaseTest {
                 fuel_amount_tons = 4,
                 reusable = true
             ),
-            height = Height(2.0, 2),
+            height = Height(2.0, 2.0),
             id = 1,
             mass = Mass(2, 3),
             rocket_id = testId,
@@ -40,7 +42,8 @@ internal class FetchRocketInfoUseCaseTest {
                 fuel_amount_tons = 6,
                 reusable = false
             ),
-            flickr_images = emptyList()
+            flickr_images = emptyList(),
+            isFavorite = false
         )
 
         coEvery { getSelectedRocketIdUseCase(Unit) } returns testId
@@ -53,7 +56,8 @@ internal class FetchRocketInfoUseCaseTest {
         val fetchRocketInfoUseCase = FetchRocketInfoUseCase(
             rocketRepository,
             localRocketRepository,
-            getSelectedRocketIdUseCase
+            getSelectedRocketIdUseCase,
+            favoriteRocketRepository
         )
 
         val result = fetchRocketInfoUseCase.invoke()

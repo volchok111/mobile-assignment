@@ -3,15 +3,11 @@ package com.volchok.rocketapp.feature.details.domain
 import com.volchok.rocketapp.feature.favorites.domain.FavoriteRocketRepository
 import com.volchok.rocketapp.library.use_case.domain.SuspendUseCase
 
-class UpdateFavoritesUseCase(
+class UpdateFavoriteRocketByIdUseCase(
     private val favoriteRocketRepository: FavoriteRocketRepository
-) : SuspendUseCase<UpdateFavoritesUseCase.Params, Unit> {
+) : SuspendUseCase<String, Unit> {
 
-    override suspend fun invoke(input: Params) {
-        favoriteRocketRepository.updateFavoriteByRocketId(input.rocketId)
+    override suspend fun invoke(input: String) {
+        favoriteRocketRepository.updateFavoriteByRocketId(input)
     }
-
-    data class Params(
-        val rocketId: String
-    )
 }

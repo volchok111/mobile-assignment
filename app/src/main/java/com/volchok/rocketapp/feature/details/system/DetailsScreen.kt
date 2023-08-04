@@ -60,7 +60,8 @@ private fun DetailsScreenImpl(
                 contentAlignment = Alignment.CenterEnd,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(end = sizeS)) {
+                    .padding(end = sizeS)
+            ) {
                 RocketIcon(
                     icon = if (state.rocket?.isFavorite == true) com.volchok.rocketapp.R.drawable.favorite_filled else com.volchok.rocketapp.R.drawable.favorite_blank,
                     contentDescription = "favorites",
@@ -72,71 +73,10 @@ private fun DetailsScreenImpl(
                         }
                 )
             }
-            RocketText(
-                text = stringResource(id = com.volchok.rocketapp.R.string.details_screen_overview),
-                style = MaterialTheme.typography.h6,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(sizeS))
-
-            RocketText(
-                text = state.rocket?.description.orEmpty(),
-                style = MaterialTheme.typography.body1
-            )
-            Spacer(modifier = Modifier.height(sizeS))
-
-            RocketText(
-                text = stringResource(id = com.volchok.rocketapp.R.string.details_screen_parameters),
-                style = MaterialTheme.typography.h6,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(sizeS))
-
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                ParametersItem(
-                    title = state.rocket?.height?.meters.toString() + stringResource(id = com.volchok.rocketapp.R.string.details_screen_m),
-                    subtitle = stringResource(id = com.volchok.rocketapp.R.string.details_screen_parameters_height)
-                )
-                ParametersItem(
-                    title = state.rocket?.diameter?.meters.toString() + stringResource(id = com.volchok.rocketapp.R.string.details_screen_m),
-                    subtitle = stringResource(id = com.volchok.rocketapp.R.string.details_screen_parameters_diameter)
-                )
-                ParametersItem(
-                    title = (state.rocket?.mass?.kg?.div(1000)).toString() + stringResource(id = com.volchok.rocketapp.R.string.details_screen_t),
-                    subtitle = stringResource(id = com.volchok.rocketapp.R.string.details_screen_parameters_mass)
-                )
-            }
-
+            Overview(state)
             Spacer(modifier = Modifier.height(sizeM))
 
-            RocketInfoCard(
-                title = stringResource(id = com.volchok.rocketapp.R.string.details_screen_first_stage),
-                reusable = state.rocket?.first_stage?.reusable.let {
-                    if (it == true) stringResource(id = com.volchok.rocketapp.R.string.details_screen_reusable) else stringResource(
-                        id = com.volchok.rocketapp.R.string.details_screen_not_reusable
-                    )
-                },
-                enginesCount = state.rocket?.first_stage?.engines.toString(),
-                fuel = state.rocket?.first_stage?.fuel_amount_tons.toString(),
-                seconds = state.rocket?.first_stage?.burn_time_sec.toString()
-            )
-            Spacer(modifier = Modifier.height(sizeS))
-
-            RocketInfoCard(
-                title = stringResource(id = com.volchok.rocketapp.R.string.details_screen_second_stage),
-                reusable = state.rocket?.second_stage?.reusable.let {
-                    if (it == true) stringResource(id = com.volchok.rocketapp.R.string.details_screen_reusable) else stringResource(
-                        id = com.volchok.rocketapp.R.string.details_screen_not_reusable
-                    )
-                },
-                enginesCount = state.rocket?.second_stage?.engines.toString(),
-                fuel = state.rocket?.second_stage?.fuel_amount_tons.toString(),
-                seconds = state.rocket?.second_stage?.burn_time_sec.toString()
-            )
+            Stages(state)
             Spacer(modifier = Modifier.height(sizeM))
 
             RocketText(
@@ -183,6 +123,80 @@ private fun DetailsScreenImpl(
 
     if (state.loading) {
         RocketLoadingDialog(title = "")
+    }
+}
+
+@Composable
+private fun Stages(
+    state: DetailsViewModel.State
+) {
+    RocketInfoCard(
+        title = stringResource(id = com.volchok.rocketapp.R.string.details_screen_first_stage),
+        reusable = state.rocket?.first_stage?.reusable.let {
+            if (it == true) stringResource(id = com.volchok.rocketapp.R.string.details_screen_reusable) else stringResource(
+                id = com.volchok.rocketapp.R.string.details_screen_not_reusable
+            )
+        },
+        enginesCount = state.rocket?.first_stage?.engines.toString(),
+        fuel = state.rocket?.first_stage?.fuel_amount_tons.toString(),
+        seconds = state.rocket?.first_stage?.burn_time_sec.toString()
+    )
+    Spacer(modifier = Modifier.height(sizeS))
+
+    RocketInfoCard(
+        title = stringResource(id = com.volchok.rocketapp.R.string.details_screen_second_stage),
+        reusable = state.rocket?.second_stage?.reusable.let {
+            if (it == true) stringResource(id = com.volchok.rocketapp.R.string.details_screen_reusable) else stringResource(
+                id = com.volchok.rocketapp.R.string.details_screen_not_reusable
+            )
+        },
+        enginesCount = state.rocket?.second_stage?.engines.toString(),
+        fuel = state.rocket?.second_stage?.fuel_amount_tons.toString(),
+        seconds = state.rocket?.second_stage?.burn_time_sec.toString()
+    )
+}
+
+@Composable
+private fun Overview(
+    state: DetailsViewModel.State
+) {
+    RocketText(
+        text = stringResource(id = com.volchok.rocketapp.R.string.details_screen_overview),
+        style = MaterialTheme.typography.h6,
+        fontWeight = FontWeight.Bold
+    )
+    Spacer(modifier = Modifier.height(sizeS))
+
+    RocketText(
+        text = state.rocket?.description.orEmpty(),
+        style = MaterialTheme.typography.body1
+    )
+    Spacer(modifier = Modifier.height(sizeS))
+
+    RocketText(
+        text = stringResource(id = com.volchok.rocketapp.R.string.details_screen_parameters),
+        style = MaterialTheme.typography.h6,
+        fontWeight = FontWeight.Bold
+    )
+    Spacer(modifier = Modifier.height(sizeS))
+
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        ParametersItem(
+            title = state.rocket?.height?.meters.toString() + stringResource(id = com.volchok.rocketapp.R.string.details_screen_m),
+            subtitle = stringResource(id = com.volchok.rocketapp.R.string.details_screen_parameters_height)
+        )
+        ParametersItem(
+            title = state.rocket?.diameter?.meters.toString() + stringResource(id = com.volchok.rocketapp.R.string.details_screen_m),
+            subtitle = stringResource(id = com.volchok.rocketapp.R.string.details_screen_parameters_diameter)
+        )
+        ParametersItem(
+            title = (state.rocket?.mass?.kg?.div(1000)).toString() + stringResource(id = com.volchok.rocketapp.R.string.details_screen_t),
+            subtitle = stringResource(id = com.volchok.rocketapp.R.string.details_screen_parameters_mass)
+        )
     }
 }
 

@@ -52,49 +52,21 @@ private fun HomeScreenImpl(
             .fillMaxSize()
             .padding(sizeS)
     ) {
-        Box(
-            contentAlignment = Alignment.CenterStart,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            RocketText(
-                text = stringResource(id = R.string.home_screen_title),
-                style = MaterialTheme.typography.h4,
-                fontWeight = FontWeight.Bold,
-                color = chrome900
-            )
-        }
-        Spacer(modifier = Modifier.height(sizeS))
-        Card(
-            modifier = Modifier
-                .fillMaxWidth(),
-            shape = RoundedCornerShape(15.dp)
-        ) {
-            Box(
-                modifier = Modifier
-                    .background(RocketColors.white)
-                    .padding(start = sizeS, end = sizeS)
-            ) {
-                LazyColumn {
-                    itemsIndexed(state.rockets) { index, item ->
-                        if (index != 0 && index != 4) {
-                            Divider(color = RocketColors.chrome100, thickness = 1.dp)
-                        }
-                        Spacer(modifier = Modifier.height(sizeXS))
-                        if (item != null) {
-                            RocketListItem(
-                                item = item,
-                                onClick = {
-                                    if (it != null) {
-                                        onItem(it)
-                                    }
-                                }
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(sizeXS))
-                    }
-                }
-            }
-        }
+        FavoriteRocketsList(state = state, onItem = onItem)
+        RocketsList(state = state, onItem = onItem)
+    }
+
+    if (state.loading) {
+        RocketLoadingDialog(title = "")
+    }
+}
+
+@Composable
+private fun FavoriteRocketsList(
+    state: HomeViewModel.State,
+    onItem: (String) -> Unit
+) {
+    if (state.favorites.isNotEmpty()) {
         Box(
             contentAlignment = Alignment.CenterStart,
             modifier = Modifier.fillMaxWidth()
@@ -107,19 +79,70 @@ private fun HomeScreenImpl(
                 color = chrome900
             )
         }
-        Spacer(modifier = Modifier.height(sizeS))
-        Card(
+    }
+    Spacer(modifier = Modifier.height(sizeS))
+    Card(
+        modifier = Modifier
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(15.dp)
+    ) {
+        Box(
             modifier = Modifier
-                .fillMaxWidth(),
-            shape = RoundedCornerShape(15.dp)
+                .background(RocketColors.white)
+                .padding(start = sizeS, end = sizeS)
         ) {
-            Box(
-                modifier = Modifier
-                    .background(RocketColors.white)
-                    .padding(start = sizeS, end = sizeS)
-            ) {
-                LazyColumn {
-                    itemsIndexed(state.favorites) { index, item ->
+            LazyColumn {
+                itemsIndexed(state.favorites) { index, item ->
+                    if (index != 0 && index != 4) {
+                        Divider(color = RocketColors.chrome100, thickness = 1.dp)
+                    }
+
+                    Spacer(modifier = Modifier.height(sizeXS))
+                    RocketListItem(
+                        item = item,
+                        onClick = {
+                            if (it != null) {
+                                onItem(it)
+                            }
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(sizeXS))
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun RocketsList(
+    state: HomeViewModel.State,
+    onItem: (String) -> Unit
+) {
+    Box(
+        contentAlignment = Alignment.CenterStart,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        RocketText(
+            text = stringResource(id = R.string.home_screen_title),
+            style = MaterialTheme.typography.h4,
+            fontWeight = FontWeight.Bold,
+            color = chrome900
+        )
+    }
+    Spacer(modifier = Modifier.height(sizeS))
+    Card(
+        modifier = Modifier
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(15.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .background(RocketColors.white)
+                .padding(start = sizeS, end = sizeS)
+        ) {
+            LazyColumn {
+                itemsIndexed(state.rockets) { index, item ->
+                    if (item?.isFavorite == false) {
                         if (index != 0 && index != 4) {
                             Divider(color = RocketColors.chrome100, thickness = 1.dp)
                         }
@@ -132,15 +155,11 @@ private fun HomeScreenImpl(
                                 }
                             }
                         )
-                        Spacer(modifier = Modifier.height(sizeXS))
                     }
+                    Spacer(modifier = Modifier.height(sizeXS))
                 }
             }
         }
-    }
-
-    if (state.loading) {
-        RocketLoadingDialog(title = "")
     }
 }
 
