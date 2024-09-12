@@ -28,7 +28,7 @@ class SensorDelegate(
         override fun onSensorChanged(event: SensorEvent?) {
             if (event?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
                 val upDown = event.values[1]
-                if (upDown.toInt() > 0) {
+                if (upDown.toDouble() > VALUE_TO_LAUNCH_ROCKET && upDown.toDouble() < VALUE_TO_LAUNCH_ROCKET + DEVIATION) {
                     sensorController.onLaunched(RocketStages.FlyingStage)
                 }
             }
@@ -52,5 +52,10 @@ class SensorDelegate(
 
     private fun getSensorManager(): SensorManager {
         return activity.applicationContext.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+    }
+
+    companion object {
+        private const val VALUE_TO_LAUNCH_ROCKET = 6.93// Accelerometer value in m/s2
+        private const val DEVIATION = 0.06 // Accelerometer value in m/s2
     }
 }

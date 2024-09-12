@@ -1,6 +1,6 @@
 package com.volchok.rocketapp.feature.sensor.presentation
 
-import com.volchok.rocketapp.feature.sensor.domain.ObserveRocketStageUseCase
+import com.volchok.rocketapp.feature.sensor.domain.ObserveRocketLaunchStageUseCase
 import com.volchok.rocketapp.feature.sensor.model.RocketStages
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
@@ -15,8 +15,8 @@ import org.junit.Before
 import org.junit.Test
 
 internal class RocketLaunchViewModelTest {
-    private val observeRocketStageUseCase = mockk<ObserveRocketStageUseCase>()
-    private fun createViewModel() = RocketLaunchViewModel(observeRocketStageUseCase)
+    private val observeRocketLaunchStageUseCase = mockk<ObserveRocketLaunchStageUseCase>()
+    private fun createViewModel() = RocketLaunchViewModel(observeRocketLaunchStageUseCase)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
@@ -28,7 +28,7 @@ internal class RocketLaunchViewModelTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `should observe rocket stage and update state`() = runTest {
-        coEvery { observeRocketStageUseCase.invoke(Unit) } returns flowOf(RocketStages.FlyingStage)
+        coEvery { observeRocketLaunchStageUseCase.invoke(Unit) } returns flowOf(RocketStages.FlyingStage)
 
         val rocketLaunchViewModel = createViewModel()
         advanceUntilIdle()
@@ -37,7 +37,7 @@ internal class RocketLaunchViewModelTest {
 
     @Test
     fun `should have isStageFlying false as a default state`() {
-        coEvery { observeRocketStageUseCase.invoke(Unit) } returns emptyFlow()
+        coEvery { observeRocketLaunchStageUseCase.invoke(Unit) } returns emptyFlow()
 
         val rocketLaunchViewModel = createViewModel()
         rocketLaunchViewModel.states.value.isStageFlying shouldBe false

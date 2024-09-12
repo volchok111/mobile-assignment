@@ -1,18 +1,18 @@
 package com.volchok.rocketapp.feature.sensor.presentation
 
 import androidx.lifecycle.viewModelScope
-import com.volchok.rocketapp.feature.sensor.domain.ObserveRocketStageUseCase
+import com.volchok.rocketapp.feature.sensor.domain.ObserveRocketLaunchStageUseCase
 import com.volchok.rocketapp.feature.sensor.model.RocketStages
 import com.volchok.rocketapp.library.mvvm.presentation.AbstractViewModel
 import kotlinx.coroutines.launch
 
 class RocketLaunchViewModel(
-    private val observeRocketStageUseCase: ObserveRocketStageUseCase
+    private val observeRocketLaunchStageUseCase: ObserveRocketLaunchStageUseCase,
 ) : AbstractViewModel<RocketLaunchViewModel.State>(State()) {
 
     init {
         viewModelScope.launch {
-            observeRocketStageUseCase(Unit).collect { onRocketFlyingStage(it) }
+            observeRocketLaunchStageUseCase(Unit).collect { onRocketFlyingStage(it) }
         }
     }
 

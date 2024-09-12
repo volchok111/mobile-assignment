@@ -1,7 +1,7 @@
 package com.volchok.rocketapp.feature.sensor.di
 
 import com.volchok.rocketapp.feature.sensor.device.AndroidSensorController
-import com.volchok.rocketapp.feature.sensor.domain.ObserveRocketStageUseCase
+import com.volchok.rocketapp.feature.sensor.domain.ObserveRocketLaunchStageUseCase
 import com.volchok.rocketapp.feature.sensor.domain.SensorController
 import com.volchok.rocketapp.feature.sensor.presentation.RocketLaunchViewModel
 import com.volchok.rocketapp.feature.sensor.system.SensorDelegate
@@ -15,5 +15,5 @@ val sensorModule = module {
     viewModelOf(::RocketLaunchViewModel)
     singleOf(::AndroidSensorController) bind SensorController::class
     factoryOf(::SensorDelegate)
-    factoryOf(::ObserveRocketStageUseCase)
+    factoryOf(::ObserveRocketLaunchStageUseCase)
 }
