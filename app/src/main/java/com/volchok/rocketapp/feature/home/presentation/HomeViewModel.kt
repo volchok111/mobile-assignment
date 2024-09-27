@@ -11,14 +11,19 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val observeRocketsUseCase: ObserveRocketsUseCase,
-    private val openRocketInfoUseCase: OpenRocketInfoUseCase
+    private val openRocketInfoUseCase: OpenRocketInfoUseCase,
 ) : AbstractViewModel<HomeViewModel.State>(State()) {
 
-    init {
+    fun loadData() {
         viewModelScope.launch {
             observeRocketsUseCase().collect { list ->
                 if (list is Data.Success) {
-                    state = state.copy(rockets = list.value.map { it.toItem() }, loading = false)
+                    state = state.copy(
+                        rockets = list.value.map { it.toItem() },
+                        favorites = list.value.filter { item -> item.isFavorite }
+                            .map { it.toItem() },
+                        loading = false
+                    )
                 }
             }
         }
@@ -31,17 +36,20 @@ class HomeViewModel(
     private fun RocketItem.toItem() = State.RocketItem(
         first_flight,
         rocket_name,
-        rocket_id
+        rocket_id,
+        isFavorite
     )
 
     data class State(
         val loading: Boolean = true,
-        val rockets: List<RocketItem?> = emptyList()
+        val rockets: List<RocketItem?> = emptyList(),
+        val favorites: List<RocketItem> = emptyList()
     ) : AbstractViewModel.State {
         data class RocketItem(
             val first_flight: String? = null,
             val rocket_name: String? = null,
             val rocket_id: String? = null,
+            var isFavorite: Boolean? = null
         )
     }
 }

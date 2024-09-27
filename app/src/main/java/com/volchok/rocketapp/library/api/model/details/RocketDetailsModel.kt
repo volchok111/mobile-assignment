@@ -12,4 +12,5 @@ data class RocketDetailsModel(
     val rocket_type: String? = null,
     val second_stage: SecondStage? = null,
     val flickr_images: List<String>,
+    val isFavorite: Boolean
 )

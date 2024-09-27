@@ -10,6 +10,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,6 +30,10 @@ fun HomeScreen() {
     val viewModel = getViewModel<HomeViewModel>()
     val state = viewModel.states.collectAsState()
 
+    LaunchedEffect(viewModel) {
+        viewModel.loadData()
+    }
+
     HomeScreenImpl(
         state = state.value,
         viewModel::onItem
@@ -47,45 +52,8 @@ private fun HomeScreenImpl(
             .fillMaxSize()
             .padding(sizeS)
     ) {
-        Box(
-            contentAlignment = Alignment.CenterStart,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            RocketText(
-                text = stringResource(id = R.string.home_screen_title),
-                style = MaterialTheme.typography.h4,
-                fontWeight = FontWeight.Bold,
-                color = chrome900
-            )
-        }
-        Spacer(modifier = Modifier.height(sizeS))
-        Card(
-            modifier = Modifier
-                .fillMaxWidth(),
-            shape = RoundedCornerShape(15.dp)
-        ) {
-            Box(
-                modifier = Modifier
-                    .background(RocketColors.white)
-                    .padding(start = sizeS, end = sizeS)
-            ) {
-                LazyColumn {
-                    itemsIndexed(state.rockets) { index, item ->
-                        if (index != 0 && index != 4) {
-                            Divider(color = RocketColors.chrome100, thickness = 1.dp)
-                        }
-                        Spacer(modifier = Modifier.height(sizeXS))
-                        if (item != null) {
-                            RocketListItem(
-                                item = item,
-                                modifier = Modifier.clickable { item.rocket_id?.let { onItem(it) } }
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(sizeXS))
-                    }
-                }
-            }
-        }
+        FavoriteRocketsList(state = state, onItem = onItem)
+        RocketsList(state = state, onItem = onItem)
     }
 
     if (state.loading) {
@@ -94,13 +62,116 @@ private fun HomeScreenImpl(
 }
 
 @Composable
+private fun FavoriteRocketsList(
+    state: HomeViewModel.State,
+    onItem: (String) -> Unit
+) {
+    if (state.favorites.isNotEmpty()) {
+        Box(
+            contentAlignment = Alignment.CenterStart,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Spacer(modifier = Modifier.height(RocketDimensions.sizeL))
+            RocketText(
+                text = stringResource(id = R.string.home_screen_favorites_title),
+                style = MaterialTheme.typography.h4,
+                fontWeight = FontWeight.Bold,
+                color = chrome900
+            )
+        }
+    }
+    Spacer(modifier = Modifier.height(sizeS))
+    Card(
+        modifier = Modifier
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(15.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .background(RocketColors.white)
+                .padding(start = sizeS, end = sizeS)
+        ) {
+            LazyColumn {
+                itemsIndexed(state.favorites) { index, item ->
+                    if (index != 0 && index != 4) {
+                        Divider(color = RocketColors.chrome100, thickness = 1.dp)
+                    }
+
+                    Spacer(modifier = Modifier.height(sizeXS))
+                    RocketListItem(
+                        item = item,
+                        onClick = {
+                            if (it != null) {
+                                onItem(it)
+                            }
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(sizeXS))
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun RocketsList(
+    state: HomeViewModel.State,
+    onItem: (String) -> Unit
+) {
+    Box(
+        contentAlignment = Alignment.CenterStart,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        RocketText(
+            text = stringResource(id = R.string.home_screen_title),
+            style = MaterialTheme.typography.h4,
+            fontWeight = FontWeight.Bold,
+            color = chrome900
+        )
+    }
+    Spacer(modifier = Modifier.height(sizeS))
+    Card(
+        modifier = Modifier
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(15.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .background(RocketColors.white)
+                .padding(start = sizeS, end = sizeS)
+        ) {
+            LazyColumn {
+                itemsIndexed(state.rockets) { index, item ->
+                    if (item?.isFavorite == false) {
+                        if (index != 0 && index != 4) {
+                            Divider(color = RocketColors.chrome100, thickness = 1.dp)
+                        }
+                        Spacer(modifier = Modifier.height(sizeXS))
+                        RocketListItem(
+                            item = item,
+                            onClick = {
+                                if (it != null) {
+                                    onItem(it)
+                                }
+                            }
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(sizeXS))
+                }
+            }
+        }
+    }
+}
+
+@Composable
 private fun RocketListItem(
     item: HomeViewModel.State.RocketItem,
-    modifier: Modifier = Modifier
+    onClick: (String?) -> Unit
 ) {
     Row(
-        modifier = modifier
-            .fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .clickable { onClick(item.rocket_id) },
         verticalAlignment = Alignment.CenterVertically
     ) {
         RocketIcon(

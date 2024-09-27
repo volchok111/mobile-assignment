@@ -17,7 +17,7 @@ internal class MemoryRocketDetailsRepositoryTest {
             fuel_amount_tons = 4,
             reusable = true
         ),
-        height = Height(2.0, 2),
+        height = Height(2.0, 2.0),
         id = 1,
         mass = Mass(2, 3),
         rocket_id = rocketId,
@@ -29,7 +29,8 @@ internal class MemoryRocketDetailsRepositoryTest {
             fuel_amount_tons = 6,
             reusable = false
         ),
-        flickr_images = emptyList()
+        flickr_images = emptyList(),
+        isFavorite = false
     )
 
     @Test
